@@ -49,7 +49,7 @@ struct structCircle {
 	sf::Texture circleTexture;
 	sf::Sprite circleSprite;
 	structCircle() {
-		circleTexture.loadFromFile("Assets/Cursors/Circle.png");
+		circleTexture.loadFromFile("Assets/Cursors/redcircle.png");
 		circleSprite.setTexture(circleTexture);
 		circleSprite.setScale(sf::Vector2f(scaleresol.getScaleCircleCursor(), scaleresol.getScaleCircleCursor()));
 		circleSprite.setOrigin(650, 650);
