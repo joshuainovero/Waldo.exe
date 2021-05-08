@@ -1,0 +1,7 @@
+json_reader.o
+json_value.o
+json_writer.o
+main.o
+MapProperties.o
+newer.o
+main.exe
