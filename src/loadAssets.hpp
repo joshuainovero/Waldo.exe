@@ -67,7 +67,7 @@ struct structArrow {
 		arrowCursorTexture.loadFromFile("Assets/Cursors/ArrowCursor.png");
 		arrowCursorSprite.setTexture(arrowCursorTexture);
 		//0.30f for 768p
-		std::cout << "scale arrow : " << scaleresol.getScaleArrow() << std::endl;
+		// std::cout << "scale arrow : " << scaleresol.getScaleArrow() << std::endl;
 		arrowCursorSprite.setScale(sf::Vector2f(scaleresol.getScaleArrow(), scaleresol.getScaleArrow()));
 		arrowCursorSprite.setOrigin(68, 23);
 	}

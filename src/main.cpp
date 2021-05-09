@@ -1,3 +1,4 @@
+#include <Windows.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <json/json.h>
@@ -14,7 +15,8 @@
 #include "GameMenu.hpp"
 #include "InGame.hpp"
 
-int main() {
+int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow) {
+	std::cout << "Debug Console" << std::endl;
 	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Where's Wally?", sf::Style::Close | sf::Style::Fullscreen);
 	window.setVerticalSyncEnabled(true);
 	//std::cout << sf::VideoMode::getDesktopMode().width << " " << sf::VideoMode::getDesktopMode().height << std::endl;
@@ -41,10 +43,10 @@ int main() {
 		}
 
 		//window.draw(mybutton.returnButton());
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-			std::cout << mousePos.x << " " << mousePos.y << std::endl;
-		}
+		// if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		// 	sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+		// 	std::cout << mousePos.x << " " << mousePos.y << std::endl;
+		// }
 		
 		window.display();
 
