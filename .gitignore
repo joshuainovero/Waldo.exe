@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 # Output #
 *.o
 *.exe
 
 makefilebackup.txt
+=======
+*.o
+main.exe
+makefilebackup.txt
+>>>>>>> 992f915ad51a447e2a8e8fd94d554719d786ea22
