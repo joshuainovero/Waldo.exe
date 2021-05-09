@@ -6,7 +6,7 @@
 #include <iostream>
 
 int main(){
-    system("mingw32-make");
+    system("title Debug Console && mingw32-make");
     system("start main.exe");
     std::cin.get();
     return 0;
