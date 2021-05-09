@@ -1,6 +1,5 @@
 # Output #
 *.o
-*.exe
+Build/
 
 makefilebackup.txt
-
