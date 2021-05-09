@@ -24,9 +24,9 @@ struct initMenuButtons {
 	}
 };
 initMenuButtons initmenubuttons;
-
+sf::Vector2i menuMousePos;
 void GameMenu(sf::RenderWindow* menuWindow) {
-	sf::Vector2i mousePos = sf::Mouse::getPosition(*menuWindow);
+	menuMousePos = sf::Mouse::getPosition(*menuWindow);
 	if (intro.music.getStatus() != sf::Music::Playing) {
 		intro.music.play();
 		intro.music.setLoop(true);
@@ -36,29 +36,31 @@ void GameMenu(sf::RenderWindow* menuWindow) {
 	//for (auto c : startButton.clickableX) std::cout << c << " "; std::cout << std::endl;
 	//for (auto c : startButton.clickableY) std::cout << c << " "; std::cout << std::endl;
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		if ((mousePos.x >= startButton->clickableX[0] && mousePos.x <= startButton->clickableX[1]) &&
-			(mousePos.y >= startButton->clickableY[0] && mousePos.y <= startButton->clickableY[1])) {
-			SetMapProperty();
-		}
-	}
-
-
 	menuWindow->draw(MenuLogo.spriteMenuLogo);
 	menuWindow->draw(*startButtonShadow->getButton());
 	menuWindow->draw(*startButtonBorder->getButton());
 	menuWindow->draw(*startButton->getButton());
 	menuWindow->draw(*startButton->getText());
 
-	if ((mousePos.x >= startButton->clickableX[0] && mousePos.x <= startButton->clickableX[1]) &&
-		(mousePos.y >= startButton->clickableY[0] && mousePos.y <= startButton->clickableY[1])) {
-		HandCursor.handCursorSprite.setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-		menuWindow->draw(HandCursor.handCursorSprite);
+	if (appInFocus(menuWindow)){
+		if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
+			(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
+			HandCursor.handCursorSprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
+			menuWindow->draw(HandCursor.handCursorSprite);
+		}
+		else {
+			ArrowCursor.arrowCursorSprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
+			menuWindow->draw(ArrowCursor.arrowCursorSprite);
+		}
 	}
-	else {
-		ArrowCursor.arrowCursorSprite.setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-		menuWindow->draw(ArrowCursor.arrowCursorSprite);
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
+			(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
+			SetMapProperty();
+		}
 	}
+
 
 
 

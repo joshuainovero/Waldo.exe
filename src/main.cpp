@@ -6,6 +6,24 @@
 #include <fstream>
 #include <string>
 
+bool appInFocus(sf::RenderWindow* app)
+{
+        if(app == NULL)
+                return false;
+
+        HWND handle = app->getSystemHandle();
+        bool one = handle == GetFocus();
+        bool two = handle == GetForegroundWindow();
+
+        if(one != two)
+        {
+                SetFocus(handle);
+                SetForegroundWindow(handle);
+        }
+
+        return one && two;
+}
+
 
 #include "Scales.hpp"
 #include "Labels.hpp"
@@ -16,7 +34,7 @@
 #include "InGame.hpp"
 
 int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow) {
-	std::cout << "Debug Console" << std::endl;
+	//std::cout << "Debug Console" << std::endl;
 	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Where's Wally?", sf::Style::Close | sf::Style::Fullscreen);
 	window.setVerticalSyncEnabled(true);
 	//std::cout << sf::VideoMode::getDesktopMode().width << " " << sf::VideoMode::getDesktopMode().height << std::endl;
@@ -25,11 +43,10 @@ int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszAr
 		while (window.pollEvent(windowEvent)) {
 			switch (windowEvent.type) {
 			case sf::Event::TextEntered:
-				std::cout << char(windowEvent.text.unicode);
-				if (windowEvent.text.unicode == 27) {
-					window.close();
-				}
-				break;
+				if (windowEvent.text.unicode == 27)
+					window.close(); break;
+			case sf::Event::Closed:
+				window.close(); break;
 			}
 		}
 		//std::cout << sf::VideoMode::getDesktopMode().width << ", " << sf::VideoMode::getDesktopMode().height << std::endl;
