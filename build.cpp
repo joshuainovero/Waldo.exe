@@ -2,7 +2,7 @@
 #include <iostream>
 
 int main(){
-    //VS code exentsion | Code runner - Executor map -> settings.json:
+    //VS code extension | Code runner - Executor map -> settings.json:
     //"cpp": "g++ build.cpp -o build.exe && start build.exe"
     system("mingw32-make");
     system("start main.exe");
