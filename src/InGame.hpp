@@ -20,10 +20,10 @@ bool wallyFound = false;
 bool textMoved = false;
 
 sf::Clock* wait;
-sf::Vector2i mousePos;
+sf::Vector2i inGameMousePos;
 const int startingTime = 60;
 int countdown = 0;
-int tempSeconds = NULL;
+int tempSeconds = 0;
 
 void resetMapState() {
 	//Reset inGame properties
@@ -31,7 +31,7 @@ void resetMapState() {
 	waitRunning = false;
 	EnableClick = false;
 	countdown = 0;
-	tempSeconds = NULL;
+	tempSeconds = 0;
 	isOver = false;
 	ScreamOn = false;
 	wallyFound = false;
@@ -110,13 +110,13 @@ void InGame(sf::RenderWindow *inGameWindow) {
 	
 	
 	if (appInFocus(inGameWindow)){
-		mousePos = sf::Mouse::getPosition(*inGameWindow);
-		circleCursor.circleSprite.setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+		inGameMousePos = sf::Mouse::getPosition(*inGameWindow);
+		circleCursor.circleSprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
 
 		if (EnableClick) { //Delays
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) { // If wally is found
-				if ((mousePos.x >= CurrentMap->getWallyx1() && mousePos.x <= CurrentMap->getWallyx2()) &&
-					(mousePos.y >= CurrentMap->getWallyy1() && mousePos.y <= CurrentMap->getWallyy2())) {
+				if ((inGameMousePos.x >= CurrentMap->getWallyx1() && inGameMousePos.x <= CurrentMap->getWallyx2()) &&
+					(inGameMousePos.y >= CurrentMap->getWallyy1() && inGameMousePos.y <= CurrentMap->getWallyy2())) {
 					WallyFound.sound.play();
 					wallyFound = true;
 					if (CurrentMap->clockRunning) {
