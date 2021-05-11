@@ -26,4 +26,5 @@ link:
 	-lsfml-graphics \
 	-lsfml-window \
 	-lsfml-system \
-	-lsfml-audio
+	-lsfml-audio \
+	-o "Build/release/Waldo"
