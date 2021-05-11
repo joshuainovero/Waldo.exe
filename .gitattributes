@@ -1,6 +1,5 @@
 * linguist-vendored
 *.cpp linguist-vendored=false
 *.py linguist-vendored=false
-*.c linguist-vendored=false
-*.Cmake linguist-vendored=false
+*.cmake linguist-vendored=false
 *.bat linguist-vendored=false
