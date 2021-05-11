@@ -1,5 +1,5 @@
 * linguist-vendored
 *.cpp linguist-vendored=false
-*.py linguist-vendored=false
+*.py linguist-detactable=true
 *.cmake linguist-vendored=false
 *.bat linguist-vendored=false
