@@ -5,7 +5,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
+#include <unistd.h>
+#include <direct.h>
 bool appInFocus(sf::RenderWindow* app)
 {
         if(app == NULL)
@@ -26,8 +27,37 @@ bool appInFocus(sf::RenderWindow* app)
 
 #include "Core.hpp"
 
-int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow) {
+static bool checkingForUpdates = true;
+
+//int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow)
+int main() {
 	//std::cout << "Debug Console" << std::endl;
+	getMainDirectory();
+	system("cd updates && start woUpdate.exe");
+
+	//Set temporary sprites for updates
+	sf::Texture *textureCheckUpdating = new sf::Texture;
+	sf::Sprite *spriteCheckUpdating = new sf::Sprite;
+	textureCheckUpdating->loadFromFile("Assets/Maps/CheckUpdates.png");
+	spriteCheckUpdating->setTexture(*textureCheckUpdating);
+	spriteCheckUpdating->setScale(sf::Vector2f(scaleresol.getFullScreenSpriteScale(), scaleresol.getFullScreenSpriteScale()));
+
+	sf::Texture *textureCheckUpdatingNow = new sf::Texture;
+	sf::Sprite *spriteCheckUpdatingNow = new sf::Sprite;
+	textureCheckUpdatingNow->loadFromFile("Assets/Maps/GameUpdating.png");
+	spriteCheckUpdatingNow->setTexture(*textureCheckUpdatingNow);
+	spriteCheckUpdatingNow->setScale(sf::Vector2f(scaleresol.getFullScreenSpriteScale(), scaleresol.getFullScreenSpriteScale()));
+
+	sf::Texture *tempArrowCursorTexture = new sf::Texture;
+	sf::Sprite  *tempArrowCursorSprite = new sf::Sprite;
+	tempArrowCursorTexture->loadFromFile("Assets/Cursors/ArrowCursor.png");
+	tempArrowCursorSprite->setTexture(*tempArrowCursorTexture);
+	tempArrowCursorSprite->setScale(sf::Vector2f(scaleresol.getScaleArrow(), scaleresol.getScaleArrow()));
+	tempArrowCursorSprite->setOrigin(68, 23);
+
+	sf::Vector2i *tempMenuMousePos = new sf::Vector2i;
+
+
 	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Where's Wally?", sf::Style::Close | sf::Style::Fullscreen);
 	window.setVerticalSyncEnabled(true);
 	//std::cout << sf::VideoMode::getDesktopMode().width << " " << sf::VideoMode::getDesktopMode().height << std::endl;
@@ -44,12 +74,66 @@ int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszAr
 		}
 		//std::cout << sf::VideoMode::getDesktopMode().width << ", " << sf::VideoMode::getDesktopMode().height << std::endl;
 		window.clear();
-		if (MenuActive && !InGameActive) {
-			GameMenu(&window);
-		}
+		if (checkingForUpdates){
+			window.setMouseCursorVisible(false);
+			*tempMenuMousePos = sf::Mouse::getPosition(window);
+			tempArrowCursorSprite->setPosition(static_cast<float>(tempMenuMousePos->x), static_cast<float>(tempMenuMousePos->y));
+			std::ifstream readUpdateRequired("updates/UpdateRequired");
+				std::string checkUpdate;
+				readUpdateRequired >> checkUpdate;
+				if (checkUpdate != "True"){
+					window.draw(*spriteCheckUpdating);
+					window.draw(*tempArrowCursorSprite);
+				}
 
-		else if (InGameActive && !MenuActive) {
-			InGame(&window);
+				if (checkUpdate == "True"){
+					window.draw(*spriteCheckUpdatingNow);
+					window.draw(*tempArrowCursorSprite);
+					std::ifstream readState("updates/state");
+						std::string updateStatus;
+						readState >> updateStatus;
+					readState.close();
+					if (updateStatus == "Updated"){
+						updateVersion();
+						std::ofstream writeUpdateRequired("updates/UpdateRequired");
+							writeUpdateRequired << "ND";
+						writeUpdateRequired.close();
+						std::ofstream writeState("updates/state");
+							writeState << "None";
+						writeState.close();
+						checkingForUpdates = false;
+						delete spriteCheckUpdating;
+						delete spriteCheckUpdatingNow;
+						delete tempArrowCursorSprite;
+						delete textureCheckUpdating;
+						delete textureCheckUpdatingNow;
+						delete tempArrowCursorTexture;
+					}
+
+				}
+				else if (checkUpdate == "False"){
+					checkingForUpdates = false;
+					std::ofstream writeUpdateRequired("updates/UpdateRequired");
+						writeUpdateRequired << "ND";
+					writeUpdateRequired.close();
+
+					delete spriteCheckUpdating;
+					delete spriteCheckUpdatingNow;
+					delete tempArrowCursorSprite;
+					delete textureCheckUpdating;
+					delete textureCheckUpdatingNow;
+					delete tempArrowCursorTexture;
+				}
+				
+		}
+		else {
+			if (MenuActive && !InGameActive) {
+				GameMenu(&window);
+			}
+
+			else if (InGameActive && !MenuActive) {
+				InGame(&window);
+			}
 		}
 
 		//window.draw(mybutton.returnButton());
@@ -59,7 +143,6 @@ int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszAr
 		// }
 		
 		window.display();
-
 
 	}
 

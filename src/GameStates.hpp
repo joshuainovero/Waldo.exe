@@ -5,26 +5,6 @@ bool InGameActive = false;
 
 MapProperty* CurrentMap;
 
-Json::Value getDataJson() {
-	std::ifstream fileDataJson("Data/data.json");
-		Json::Value data;
-		Json::Reader reader;
-		reader.parse(fileDataJson, data);
-	fileDataJson.close();
-	return data;
-}
-
-void updateCurrentMapOrder() {
-	Json::Value data = getDataJson();
-	if (data["currentMapOrder"].asInt() != 5) {
-		data["currentMapOrder"] = data["currentMapOrder"].asInt() + 1;
-		std::ofstream fileDataJson("Data/data.json");
-		Json::StyledWriter styledwriter;
-		fileDataJson << styledwriter.write(data);
-		fileDataJson.close();
-	}
-
-}
 
 void SetMapProperty() {
 

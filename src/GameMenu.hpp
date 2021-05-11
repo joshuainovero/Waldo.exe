@@ -7,6 +7,7 @@ ButtonLabel* startButton;
 ButtonLabel* startButtonBorder;
 ButtonLabel* startButtonShadow;
 
+
 struct initMenuButtons {
 	int screenResol = sf::VideoMode::getDesktopMode().height;
 	initMenuButtons() {
