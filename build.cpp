@@ -3,11 +3,9 @@
 //"cpp": "g++ build.cpp -o build.exe && start build.exe"
 
 #include <Windows.h>
-#include <iostream>
 
 int main(){
-    system("title Debug Console && mingw32-make");
-    system("start Build/release/Waldo.exe");
-    std::cin.get();
+    system("title Build && mingw32-make");
+    system("start Build/release/Waldo.exe && pause");
     return 0;
 }
