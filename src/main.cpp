@@ -24,14 +24,7 @@ bool appInFocus(sf::RenderWindow* app)
         return one && two;
 }
 
-
-#include "Scales.hpp"
-#include "Labels.hpp"
-#include "MapProperties.hpp"
-#include "loadAssets.hpp"
-#include "GameStates.hpp"
-#include "GameMenu.hpp"
-#include "InGame.hpp"
+#include "Core.hpp"
 
 int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow) {
 	//std::cout << "Debug Console" << std::endl;
