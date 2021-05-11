@@ -7,7 +7,7 @@
 
 int main(){
     system("title Debug Console && mingw32-make");
-    system("start main.exe");
+    system("start Build/release/Waldo.exe");
     std::cin.get();
     return 0;
 }
