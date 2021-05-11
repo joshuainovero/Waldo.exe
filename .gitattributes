@@ -1,2 +1,2 @@
-*.bat linguist-detectable=true
+*.cpp linguist-detectable=false
 *.py linguist-detectable=true
