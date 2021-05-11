@@ -2,4 +2,11 @@
 *.o
 Build/
 
+# Update
+*.spec
+updates/__pychache__/
+updates/build/
+updates/dist
+
+
 makefilebackup.txt
