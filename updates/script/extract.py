@@ -41,13 +41,13 @@ if (moveReady):
 
         # Waldo.exe
         print(waldoEXEPath)
-        exeDestinationPath = str(readJSONMainPath["MainDirectory"])
+        exeDestinationPath = str(readJSONMainPath["app-properties"]["main-directory"])
         print(exeDestinationPath)
         moveFile(waldoEXEPath, exeDestinationPath)
 
         # Assets
         print(assetsPath)
-        assetsDestinationPath = str(readJSONMainPath["MainDirectory"]) + "\\Assets"
+        assetsDestinationPath = str(readJSONMainPath["app-properties"]["main-directory"]) + "\\Assets"
         print(assetsDestinationPath)
         moveFile(assetsPath, assetsDestinationPath)
     except:

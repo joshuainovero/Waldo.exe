@@ -8,7 +8,7 @@ MapProperty* CurrentMap;
 
 void SetMapProperty() {
 
-	switch (getDataJson()["currentMapOrder"].asInt()) {
+	switch (getDataJson()["gameplay-status"]["currentmaporder"].asInt()) {
 		case 0: CurrentMap = &MAP1; break;
 		case 1: CurrentMap = &MAP2; break;
 		case 2: CurrentMap = &MAP3; break;

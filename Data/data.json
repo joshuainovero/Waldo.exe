@@ -1,4 +1,9 @@
 {
-   "MainDirectory" : "c:\\Users\\Admin\\Desktop\\CPPgitrepos\\Waldo.exe",
-   "currentMapOrder" : 0
+   "app-properties" : {
+      "localversion" : "v0.3",
+      "main-directory" : "c:\\Users\\Admin\\Desktop\\CPPgitrepos\\Waldo.exe"
+   },
+   "gameplay-status" : {
+      "currentmaporder" : 4
+   }
 }

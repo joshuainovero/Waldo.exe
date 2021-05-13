@@ -11,8 +11,8 @@ localVersion = None
 githubVersion = None
 
 # Local Version
-jsonLocalVersion = json.load(open('../version.json'))
-localVersion = str(jsonLocalVersion["localversion"])
+jsonLocalVersion = json.load(open('../Data/data.json'))
+localVersion = str(jsonLocalVersion["app-properties"]["localversion"])
 
 # Version from github
 requestVersion = requests.get('https://joshuainovero.github.io/versions/versions.json')

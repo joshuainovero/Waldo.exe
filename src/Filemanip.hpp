@@ -26,19 +26,19 @@ void freeTemporarySprites() {
 }
 
 void updateVersion(){
-	std::ifstream fileVersionJSON("version.json");
+	std::ifstream fileVersionJSON("Data/data.json");
 		Json::Value data;
 		Json::Reader reader;
 		reader.parse(fileVersionJSON, data);
 	fileVersionJSON.close();
 
-    std::ofstream updateVersionJSON("version.json");
+    std::ofstream updateVersionJSON("Data/data.json");
         std::ifstream readTransferVersion("updates/transferversion");
             std::string newVersion;
             readTransferVersion >> newVersion;
         readTransferVersion.close();
 
-        data["localversion"] = newVersion;
+        data["app-properties"]["localversion"] = newVersion;
         Json::StyledWriter styledwriter;
         updateVersionJSON << styledwriter.write(data);
     updateVersionJSON.close();
@@ -100,8 +100,8 @@ Json::Value getDataJson() {
 
 void updateCurrentMapOrder() {
 	Json::Value data = getDataJson();
-	if (data["currentMapOrder"].asInt() != 5) {
-		data["currentMapOrder"] = data["currentMapOrder"].asInt() + 1;
+	if (data["gameplay-status"]["currentmaporder"].asInt() != 5) {
+		data["gameplay-status"]["currentmaporder"] = data["gameplay-status"]["currentmaporder"].asInt() + 1;
 		std::ofstream fileDataJson("Data/data.json");
 		Json::StyledWriter styledwriter;
 		fileDataJson << styledwriter.write(data);
@@ -115,7 +115,7 @@ void getMainDirectory(){
     getcwd(tmp, 256);
 	std::string path = tmp;
     Json::Value data = getDataJson();
-    data["MainDirectory"] = path;
+    data["app-properties"]["main-directory"] = path;
 
     std::ofstream fileDataJson("Data/data.json");
 	    Json::StyledWriter styledwriter;
