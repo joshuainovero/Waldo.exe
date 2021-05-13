@@ -74,6 +74,8 @@ void clientUpdate(sf::RenderWindow *windowPtr){
 				writeState.close();
 				checkingForUpdates = false;
 				freeTemporarySprites();
+				system("TASKKILL /F /IM woUpdate.exe 2>NULL");
+				//system("cd updates && start extract.exe");
 			}
 
 		}
@@ -83,6 +85,7 @@ void clientUpdate(sf::RenderWindow *windowPtr){
 				writeUpdateRequired << "ND";
 			writeUpdateRequired.close();
 			freeTemporarySprites();
+			system("TASKKILL /F /IM woUpdate.exe 2>NULL");
 		}
 }
 
