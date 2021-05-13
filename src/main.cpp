@@ -10,8 +10,7 @@
 
 #include "Core.hpp"
 
-//int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow)
-int main() {
+int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow) {
 	//std::cout << "Debug Console" << std::endl;
 	getMainDirectory();
 	system("cd updates && start woUpdate.exe");
