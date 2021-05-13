@@ -1,9 +1,10 @@
 {
    "app-properties" : {
       "localversion" : "v0.3",
-      "main-directory" : "c:\\Users\\Admin\\Desktop\\CPPgitrepos\\Waldo.exe"
+      "main-directory" : "c:\\Users\\Admin\\Desktop\\CPPgitrepos\\Waldo.exe",
+      "update-link" : "https://joshuainovero.github.io/versions/versions.json"
    },
    "gameplay-status" : {
-      "currentmaporder" : 4
+      "currentmaporder" : 1
    }
 }

@@ -9,13 +9,13 @@ ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 localVersion = None
 githubVersion = None
+jsonData = json.load(open('../Data/data.json'))
 
 # Local Version
-jsonLocalVersion = json.load(open('../Data/data.json'))
-localVersion = str(jsonLocalVersion["app-properties"]["localversion"])
+localVersion = str(jsonData["app-properties"]["localversion"])
 
 # Version from github
-requestVersion = requests.get('https://joshuainovero.github.io/versions/versions.json')
+requestVersion = requests.get(str(jsonData["app-properties"]["update-link"]))
 jsonVersionGithubData = json.loads(requestVersion.text)
 githubVersion = str(jsonVersionGithubData["waldoversion"])
 writeTransferVersion = open("transferversion","w")
