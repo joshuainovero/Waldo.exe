@@ -4,9 +4,9 @@ Build/
 
 # Update Files
 *.spec
-updates/__pycache__/
-updates/build/
-updates/dist/
+updates/script/__pycache__/
+updates/script/build/
+updates/script/dist/
 NULL
 
 
