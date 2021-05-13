@@ -22,6 +22,7 @@ link:
 	-o MapProperties \
 	-o main \
 	-LSFML/lib \
+	-mwindows \
 	-lsfml-graphics \
 	-lsfml-window \
 	-lsfml-system \
