@@ -1,12 +1,12 @@
-# Output #
+# Release
 *.o
 Build/
 
-# Update
+# Update Files
 *.spec
-updates/__pychache__/
+updates/__pycache__/
 updates/build/
-updates/dist
+updates/dist/
 
 
 makefilebackup.txt
