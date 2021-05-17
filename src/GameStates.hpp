@@ -24,3 +24,16 @@ void SetMapProperty() {
 
 }
 
+void gameEvents(sf::RenderWindow *currentWindow){
+	sf::Event windowEvent;
+		while (currentWindow->pollEvent(windowEvent)) {
+			switch (windowEvent.type) {
+			case sf::Event::TextEntered:
+				if (windowEvent.text.unicode == 27)
+					currentWindow->close(); break;
+			case sf::Event::Closed:
+				currentWindow->close(); break;
+			}
+		}
+}
+
