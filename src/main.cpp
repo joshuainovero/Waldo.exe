@@ -10,26 +10,14 @@
 
 #include "Core.hpp"
 
-int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow) {
-	//std::cout << "Debug Console" << std::endl;
+int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow){
 	getMainDirectory();
-	system("cd updates && start woUpdate.exe");
+	system("cd updates && start woUpdate.exe"); //Check for updates
 	setTemporarySprites();
 
 	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Where's Wally?", sf::Style::Close | sf::Style::Fullscreen);
 	window.setVerticalSyncEnabled(true);
-	//std::cout << sf::VideoMode::getDesktopMode().width << " " << sf::VideoMode::getDesktopMode().height << std::endl;
 	while (window.isOpen()) {
-		sf::Event windowEvent;
-		while (window.pollEvent(windowEvent)) {
-			switch (windowEvent.type) {
-			case sf::Event::TextEntered:
-				if (windowEvent.text.unicode == 27)
-					window.close(); break;
-			case sf::Event::Closed:
-				window.close(); break;
-			}
-		}
 		window.clear();
 		if (checkingForUpdates)
 			clientUpdate(&window);	
@@ -40,13 +28,7 @@ int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszAr
 			else if (InGameActive && !MenuActive) 
 				InGame(&window);
 		}
-
-		//window.draw(mybutton.returnButton());
-		// if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		// 	sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-		// 	std::cout << mousePos.x << " " << mousePos.y << std::endl;
-		// }
-		
+		gameEvents(&window);
 		window.display();
 
 	}
