@@ -23,6 +23,8 @@ public:
 	int getWallyy1() { return wallyPosition[2]; }
 	int getWallyy2() { return wallyPosition[3]; }
 	int getMapMinutes() { return mapMinutes; }
+
+	~MapProperty() { delete clockTimer;}
 };
 
 class Map1 : public MapProperty {
