@@ -13,10 +13,8 @@ struct structJumpscare {
 		sprite.setScale(sf::Vector2f(0.714f, 0.714f));
 	}
 };
-structJumpscare Jumpscare1("Assets/Jumpscares/Jumpscare1.png");
 
 //Music
-
 struct SoundEffect {
 	sf::SoundBuffer buffer;
 	sf::Sound sound;
@@ -25,11 +23,6 @@ struct SoundEffect {
 		sound.setBuffer(buffer);
 	}
 };
-SoundEffect WrongClick("Assets/Audio/SoundEffects/WrongClick.wav");
-SoundEffect WallyFound("Assets/Audio/SoundEffects/WallyFound.wav");
-SoundEffect Scream("Assets/Audio/SoundEffects/Scream.wav");
-
-
 
 struct GameMusic {
 	sf::Music music;
@@ -37,11 +30,6 @@ struct GameMusic {
 		music.openFromFile(path);
 	}
 };
-GameMusic intro("Assets/Audio/music/MenuMusic.wav");
-
-
-
-
 
 
 //CircleCursor
@@ -55,8 +43,6 @@ struct structCircle {
 		circleSprite.setOrigin(650, 650);
 	}
 };
-structCircle circleCursor;
-
 
 //Arrow Cursor
 struct structArrow {
@@ -72,7 +58,6 @@ struct structArrow {
 		arrowCursorSprite.setOrigin(68, 23);
 	}
 };
-structArrow ArrowCursor;
 
 
 //Hand Cursor
@@ -87,8 +72,6 @@ struct structHandCursor {
 		handCursorSprite.setOrigin(110, 30);
 	}
 };
-structHandCursor HandCursor;
-
 
 
 //Menu
@@ -102,7 +85,6 @@ struct structMenu {
 		spriteMenuLogo.setScale(sf::Vector2f(scaleresol.getFullScreenSpriteScale(), scaleresol.getFullScreenSpriteScale()));
 	}
 };
-structMenu MenuLogo;
 
 
 void setTemporarySprites(){
@@ -119,6 +101,18 @@ void setTemporarySprites(){
 	tempArrowCursorSprite->setScale(sf::Vector2f(scaleresol.getScaleArrow(), scaleresol.getScaleArrow()));
 	tempArrowCursorSprite->setOrigin(68, 23);
 }
+
+structMenu MenuLogo;
+structArrow ArrowCursor;
+structHandCursor HandCursor;
+structCircle circleCursor;
+
+GameMusic intro("Assets/Audio/music/MenuMusic.wav");
+SoundEffect WrongClick("Assets/Audio/SoundEffects/WrongClick.wav");
+SoundEffect WallyFound("Assets/Audio/SoundEffects/WallyFound.wav");
+SoundEffect Scream("Assets/Audio/SoundEffects/Scream.wav");
+
+structJumpscare Jumpscare1("Assets/Jumpscares/Jumpscare1.png");
 
 
 //Maps
