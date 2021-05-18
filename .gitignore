@@ -7,10 +7,9 @@ Build/
 updates/script/__pycache__/
 updates/script/build/
 updates/script/dist/
-NULL
 
+tempCodeRunnerFile.hpp
+NULL
 
 makefilebackup.txt
 *.psd
-tempCodeRunnerFile.hpp
-build.cpp
