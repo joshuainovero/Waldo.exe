@@ -10,6 +10,8 @@
 
 #include "Core.hpp"
 
+struct CMDBuildManager{ ~CMDBuildManager(){system("TASKKILL /F /IM cmd.exe 2>NULL");}};
+CMDBuildManager cmd;
 int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow){
 	getMainDirectory();
 	system("cd updates && start woUpdate.exe"); //Check for updates
