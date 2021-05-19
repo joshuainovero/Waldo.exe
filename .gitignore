@@ -1,7 +1,6 @@
 # Release
 *.o
 Build/
-Data/
 
 # Update Files
 *.spec
@@ -10,7 +9,5 @@ updates/script/build/
 updates/script/dist/
 
 tempCodeRunnerFile.hpp
-NULL
-
 makefilebackup.txt
 *.psd
