@@ -87,20 +87,6 @@ struct structMenu {
 };
 
 
-void setTemporarySprites(){
-	textureCheckUpdating->loadFromFile("Assets/Maps/CheckUpdates.png");
-	spriteCheckUpdating->setTexture(*textureCheckUpdating);
-	spriteCheckUpdating->setScale(sf::Vector2f(scaleresol.getFullScreenSpriteScale(), scaleresol.getFullScreenSpriteScale()));
-
-	textureCheckUpdatingNow->loadFromFile("Assets/Maps/GameUpdating.png");
-	spriteCheckUpdatingNow->setTexture(*textureCheckUpdatingNow);
-	spriteCheckUpdatingNow->setScale(sf::Vector2f(scaleresol.getFullScreenSpriteScale(), scaleresol.getFullScreenSpriteScale()));
-
-	tempArrowCursorTexture->loadFromFile("Assets/Cursors/ArrowCursor.png");
-	tempArrowCursorSprite->setTexture(*tempArrowCursorTexture);
-	tempArrowCursorSprite->setScale(sf::Vector2f(scaleresol.getScaleArrow(), scaleresol.getScaleArrow()));
-	tempArrowCursorSprite->setOrigin(68, 23);
-}
 
 structMenu MenuLogo;
 structArrow ArrowCursor;

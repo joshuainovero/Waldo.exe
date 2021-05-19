@@ -15,9 +15,9 @@ static bool movedText = false; //Prevents the loop to not keep moving
 static bool waitRunning = false;
 static bool ScreamOn = false;
 static bool EnableClick = false;
-bool isOver = false;
-bool wallyFound = false;
-bool textMoved = false;
+static bool isOver = false;
+static bool wallyFound = false;
+static bool textMoved = false;
 
 sf::Clock* wait;
 sf::Vector2i inGameMousePos;
