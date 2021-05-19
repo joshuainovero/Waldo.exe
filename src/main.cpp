@@ -10,7 +10,7 @@
 
 #include "Core.hpp"
 
-struct CMDBuildManager{ ~CMDBuildManager(){system("TASKKILL /F /IM cmd.exe 2>NULL");}};
+struct CMDBuildManager{ ~CMDBuildManager(){ endProcessID("cmd.exe");}};
 CMDBuildManager cmd;
 int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow){
 	getMainDirectory();

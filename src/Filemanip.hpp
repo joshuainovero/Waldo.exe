@@ -2,6 +2,10 @@
 #include <json/json.h>
 #include <fstream>
 #include <unistd.h>
+#include <process.h>
+#include <Tlhelp32.h>
+#include <winbase.h>
+#include <stdio.h>
 
 bool checkingForUpdates = true;
 
@@ -23,6 +27,33 @@ void freeTemporarySprites() {
 	delete textureCheckUpdating;
 	delete textureCheckUpdatingNow;
 	delete tempArrowCursorTexture;
+}
+
+void endProcessID(const char *filename) //Kill a process
+{
+    HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, NULL);
+    PROCESSENTRY32 pEntry;
+    pEntry.dwSize = sizeof (pEntry);
+    BOOL hRes = Process32First(hSnapShot, &pEntry);
+
+    while (hRes)
+    {
+    char output[256];
+    sprintf(output, "%s",  pEntry.szExeFile);
+
+        if (strcmp(output, filename) == 0)
+        {
+            HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, 0,
+                                          (DWORD) pEntry.th32ProcessID);
+            if (hProcess != NULL)
+            {
+                TerminateProcess(hProcess, 9);
+                CloseHandle(hProcess);
+            }
+        }
+        hRes = Process32Next(hSnapShot, &pEntry);
+    }
+    CloseHandle(hSnapShot);
 }
 
 void updateVersion(){
@@ -74,7 +105,7 @@ void clientUpdate(sf::RenderWindow *windowPtr){
 				writeState.close();
 				checkingForUpdates = false;
 				freeTemporarySprites();
-				system("TASKKILL /F /IM woUpdate.exe 2>NULL");
+				endProcessID("woUpdate.exe");
 				//system("cd updates && start extract.exe");
 			}
 
@@ -85,7 +116,7 @@ void clientUpdate(sf::RenderWindow *windowPtr){
 				writeUpdateRequired << "ND";
 			writeUpdateRequired.close();
 			freeTemporarySprites();
-			system("TASKKILL /F /IM woUpdate.exe 2>NULL");
+			endProcessID("woUpdate.exe");
 		}
 }
 
