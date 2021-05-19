@@ -2,7 +2,7 @@
 *.o
 Build/
 
-# Update Files
+# Pyinstaller
 *.spec
 updates/script/__pycache__/
 updates/script/build/
