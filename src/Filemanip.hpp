@@ -56,6 +56,8 @@ void endProcessID(const char *filename) //Kill a process
     CloseHandle(hSnapShot);
 }
 
+
+
 void updateVersion(){
 	std::ifstream fileVersionJSON("Data/data.json");
 		Json::Value data;
