@@ -1,6 +1,7 @@
 # Release
 *.o
 Build/
+Data/
 
 # Update Files
 *.spec
