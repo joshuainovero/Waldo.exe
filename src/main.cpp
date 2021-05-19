@@ -10,29 +10,21 @@
 
 #include "Core.hpp"
 
-struct CMDBuildManager{ ~CMDBuildManager(){ endProcessID("cmd.exe");}};
-CMDBuildManager cmd;
+
 int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow){
 	getMainDirectory();
-	system("cd updates && start woUpdate.exe"); //Check for updates
-	setTemporarySprites();
-
 	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Where's Wally?", sf::Style::Close | sf::Style::Fullscreen);
 	window.setVerticalSyncEnabled(true);
 	while (window.isOpen()) {
 		window.clear();
-		if (checkingForUpdates)
-			clientUpdate(&window);	
-		else {
-			if (MenuActive && !InGameActive) 
-				GameMenu(&window);
+		if (MenuActive && !InGameActive) 
+			GameMenu(&window);
 
-			else if (InGameActive && !MenuActive) 
-				InGame(&window);
-		}
+		else if (InGameActive && !MenuActive) 
+			InGame(&window);
+		
 		gameEvents(&window);
 		window.display();
-
 	}
 
 	return EXIT_SUCCESS;
