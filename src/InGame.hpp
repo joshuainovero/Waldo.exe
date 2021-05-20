@@ -21,7 +21,7 @@ static bool textMoved = false;
 
 sf::Clock* wait;
 sf::Vector2i inGameMousePos;
-const int startingTime = 30;
+const int startingTime = 60;
 int countdown = 0;
 int tempSeconds = 0;
 

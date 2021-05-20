@@ -24,7 +24,6 @@ bool appInFocus(sf::RenderWindow* app){
 
 
 void SetMapProperty() {
-
 	switch (getDataJson()["gameplay-status"]["currentmaporder"].asInt()) {
 		case 0: CurrentMap = &MAP1; break;
 		case 1: CurrentMap = &MAP2; break;
