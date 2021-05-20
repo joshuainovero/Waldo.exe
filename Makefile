@@ -22,5 +22,5 @@ link:
 	-lsfml-window \
 	-lsfml-system \
 	-lsfml-audio \
-	Assets/Icon/iconres.res \
+	Assets/Icon/AppIcon/iconres.res \
 	-o "Build/release/Waldo"
