@@ -16,11 +16,6 @@ link:
 	json_reader.o \
 	json_value.o \
 	json_writer.o \
-	-o json_reader \
-	-o json_value \
-	-o json_writer \
-	-o MapProperties \
-	-o main \
 	-LSFML/lib \
 	-mwindows \
 	-lsfml-graphics \
