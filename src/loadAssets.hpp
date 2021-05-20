@@ -73,6 +73,28 @@ struct structHandCursor {
 	}
 };
 
+//Exit icon
+struct structExitIcon {
+	sf::Texture exitIconTexture;
+	sf::Sprite exitIconSprite;
+	int clickableX[2], clickableY[2];
+	float exitWidth, exitHeight;
+	structExitIcon(){
+		exitIconTexture.loadFromFile("Assets/Icon/InIcons/exit.png");
+		exitIconSprite.setTexture(exitIconTexture);
+		exitWidth = (exitIconSprite.getTexture()->getSize().x) * scaleresol.getScaleExitIcon();
+		exitHeight = (exitIconSprite.getTexture()->getSize().y) * scaleresol.getScaleExitIcon();
+		exitIconSprite.setScale(sf::Vector2f(scaleresol.getScaleExitIcon(), scaleresol.getScaleExitIcon()));
+		exitIconSprite.setOrigin(exitIconSprite.getTexture()->getSize().x, 0);
+		
+		clickableX[0] = (sf::VideoMode::getDesktopMode().width) - exitWidth;
+		clickableX[1] = sf::VideoMode::getDesktopMode().width;
+		clickableY[0] = 0;
+		clickableY[1] = exitHeight;
+		exitIconSprite.setPosition(sf::VideoMode::getDesktopMode().width, 0);
+	}
+};
+
 
 //Menu
 struct structMenu {
@@ -89,6 +111,7 @@ struct structMenu {
 
 
 structMenu MenuLogo;
+structExitIcon ExitIcon;
 structArrow ArrowCursor;
 structHandCursor HandCursor;
 structCircle circleCursor;
