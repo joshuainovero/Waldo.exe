@@ -11,7 +11,8 @@ ButtonLabel* startButtonShadow;
 struct initMenuButtons {
 	int screenResol = sf::VideoMode::getDesktopMode().height;
 	initMenuButtons() {
-		sf::Color colorshadesButton(30, 144, 255, 1020);
+		unsigned short r = 30, g = 144, b = 255, a = 1020; //RGBA
+		sf::Color colorshadesButton(r, g, b, a);
 		if (screenResol == 1080) {
 			startButton = new ButtonLabel(215.0512445f, 74.53125f, 992.3279649f, 711.5625f, sf::Color::Red, 1014.816984, 711.5625, 60, "START");
 			startButtonBorder = new ButtonLabel(230.5124451f, 90.0f, 983.8945827f, 703.125f, colorshadesButton, 1012.005857, 703.125, 50, "");
