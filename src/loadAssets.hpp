@@ -80,7 +80,7 @@ struct structMenu {
 	sf::Sprite spriteMenuLogo;
 
 	structMenu() {
-		textureMenuLogo.loadFromFile("Assets/Maps/MenuLogo.png");
+		textureMenuLogo.loadFromFile("Assets/Maps/MenuUI.png");
 		spriteMenuLogo.setTexture(textureMenuLogo);
 		spriteMenuLogo.setScale(sf::Vector2f(scaleresol.getFullScreenSpriteScale(), scaleresol.getFullScreenSpriteScale()));
 	}
