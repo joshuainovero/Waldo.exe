@@ -6,6 +6,23 @@ bool InGameActive = false;
 MapProperty* CurrentMap;
 
 
+bool appInFocus(sf::RenderWindow* app){
+    if(app == NULL)
+        return false;
+
+    HWND handle = app->getSystemHandle();
+    bool one = handle == GetFocus();
+    bool two = handle == GetForegroundWindow();
+
+    if(one != two){
+        SetFocus(handle);
+        SetForegroundWindow(handle);
+    }
+
+    return one && two;
+}
+
+
 void SetMapProperty() {
 
 	switch (getDataJson()["gameplay-status"]["currentmaporder"].asInt()) {

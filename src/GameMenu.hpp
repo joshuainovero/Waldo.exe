@@ -27,7 +27,6 @@ struct initMenuButtons {
 initMenuButtons initmenubuttons;
 sf::Vector2i menuMousePos;
 void GameMenu(sf::RenderWindow* menuWindow) {
-	menuMousePos = sf::Mouse::getPosition(*menuWindow);
 	if (intro.music.getStatus() != sf::Music::Playing) {
 		intro.music.play();
 		intro.music.setLoop(true);
@@ -44,6 +43,7 @@ void GameMenu(sf::RenderWindow* menuWindow) {
 	menuWindow->draw(*startButton->getText());
 
 	if (appInFocus(menuWindow)){
+		menuMousePos = sf::Mouse::getPosition(*menuWindow);
 		if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
 			(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
 			HandCursor.handCursorSprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
@@ -53,14 +53,15 @@ void GameMenu(sf::RenderWindow* menuWindow) {
 			ArrowCursor.arrowCursorSprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
 			menuWindow->draw(ArrowCursor.arrowCursorSprite);
 		}
-	}
-
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
-			(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
-			SetMapProperty();
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+			if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
+				(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
+				SetMapProperty();
 		}
 	}
+	}
+
+
 
 
 
