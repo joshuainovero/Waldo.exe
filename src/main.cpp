@@ -10,7 +10,8 @@
 
 #include "Core.hpp"
 
-
+struct CMDBuildManager {~CMDBuildManager() {endProcessID("cmd.exe");}};
+CMDBuildManager cmd;
 int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow){
 	getMainDirectory();
 	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Where's Wally?", sf::Style::Close | sf::Style::Fullscreen);
