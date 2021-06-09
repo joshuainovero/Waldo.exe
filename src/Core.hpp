@@ -1,13 +1,14 @@
-#ifndef CORE
-#define CORE
+#ifndef CORE_H
+#define CORE_H
 
 #include "Filemanip.hpp"
 #include "Scales.hpp"
 #include "Labels.hpp"
 #include "MapProperties.hpp"
+#include "StaticObjAnimation.hpp"
 #include "loadAssets.hpp"
 #include "GameStates.hpp"
 #include "GameMenu.hpp"
 #include "InGame.hpp"
 
-#endif //CORE
+#endif //CORE_H
