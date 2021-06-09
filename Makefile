@@ -11,7 +11,7 @@ I-JSON-SRC := jsonparser/include
 INCLUDES := -I$(I-SF-SRC) -I$(I-JSON-SRC) 
 SFLIB := -LSFML/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 WIN := -mwindows
-DEPEND := $(SFLIB)
+DEPEND := $(SFLIB) $(WIN)
 ICONSRC := Assets/Icon/AppIcon/iconres.res 
 
 TARGET := Waldo
