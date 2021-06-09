@@ -31,18 +31,21 @@ struct GameMusic {
 	}
 };
 
-
 //CircleCursor
 struct structCircle {
 	sf::Texture circleTexture;
 	sf::Sprite circleSprite;
-	structCircle() {
-		circleTexture.loadFromFile("Assets/Cursors/redcircle.png");
+	StaticObjAnimation AnimationCircle;
+	structCircle()
+	:AnimationCircle() {
+		circleTexture.loadFromFile("Assets/Cursors/redcirclesprite.png");
 		circleSprite.setTexture(circleTexture);
 		circleSprite.setScale(sf::Vector2f(scaleresol.getScaleCircleCursor(), scaleresol.getScaleCircleCursor()));
-		circleSprite.setOrigin(650, 650);
+		circleSprite.setOrigin(187, 180);
+		AnimationCircle = StaticObjAnimation(&circleTexture, sf::Vector2u(9,1), 0.06f);
 	}
 };
+
 
 //Arrow Cursor
 struct structArrow {

@@ -39,6 +39,8 @@ void resetMapState() {
 }
 
 void InGame(sf::RenderWindow *inGameWindow) {
+	circleCursor.AnimationCircle.Update(circleCursor.AnimationCircle.currentRow, deltaTime);
+	circleCursor.circleSprite.setTextureRect(circleCursor.AnimationCircle.uvRect);
 	//Responsive Timer -> Start
 	if (CurrentMap->clockRunning) {
 		if (countdown == 59 && CurrentMap->getMapMinutes() == -1) {
