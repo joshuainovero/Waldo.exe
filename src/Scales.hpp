@@ -24,7 +24,7 @@ public:
 			fullScreenSpriteScale = 0.714f;
 			scaleExitIcon = 0.14f;
 			scaleArrow = 0.30f;
-			scaleCircleCursor = 0.07f;
+			scaleCircleCursor = 0.33f;
 		}
 	}
 
