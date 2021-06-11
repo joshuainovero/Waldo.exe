@@ -6,6 +6,7 @@ private:
 	float scaleExitIcon;
 	float scaleArrow;
 	float scaleCircleCursor;
+	const float maxResolution = 1080;
 
 public:
 	float getFullScreenSpriteScale() { return fullScreenSpriteScale; }
@@ -13,19 +14,12 @@ public:
 	float getScaleArrow() { return scaleArrow; }
 	float getScaleCircleCursor() { return scaleCircleCursor; }
 	ScalesResolutions() {
-		int screenHeight = sf::VideoMode::getDesktopMode().height;
-		if (screenHeight == 1080) {
-			fullScreenSpriteScale = 1.0f;
-			scaleArrow = 0.42f;
-			scaleCircleCursor = 0.09803921569f;
-		}
-
-		else if (screenHeight == 768) {
-			fullScreenSpriteScale = 0.714f;
-			scaleExitIcon = 0.14f;
-			scaleArrow = 0.30f;
-			scaleCircleCursor = 0.33f;
-		}
+		float screenHeight = sf::VideoMode::getDesktopMode().height;
+		fullScreenSpriteScale = /*0.714f;*/ screenHeight / maxResolution;
+		scaleExitIcon = /*0.14f;*/ (screenHeight / maxResolution) * 0.1969f;
+		scaleArrow = /* 0.30f; */ (screenHeight / maxResolution) * 0.42f;
+		scaleCircleCursor = /* 0.33f; */ (screenHeight / maxResolution) * 0.4641f;
+		
 	}
 
 };
