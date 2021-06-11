@@ -3,7 +3,7 @@
 CC := g++
 CFLAGS := -Wall
 
-OBJS := main.o MapProperties.o StaticObjAnimation.o json_reader.o json_value.o json_writer.o
+OBJS := main.o MapProperties.o GameTimer.o StaticObjAnimation.o json_reader.o json_value.o json_writer.o
 CSRC := src
 JSRC := src/jsonparser
 I-SF-SRC := SFML/include
@@ -29,6 +29,9 @@ StaticObjAnimation.o: $(CSRC)/StaticObjAnimation.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<
 
 MapProperties.o: $(CSRC)/MapProperties.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) -c $<
+
+GameTimer.o: $(CSRC)/GameTimer.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<
 
 json_reader.o: $(JSRC)/json_reader.cpp
