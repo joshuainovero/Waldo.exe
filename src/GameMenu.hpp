@@ -1,68 +1,88 @@
 #pragma once
-//float width, float height, float buttonPosX, float buttonPosY, sf::Color, float textPosX, float textPosY, unsigned int charSize, std::string textContent
 
 ButtonLabel* startButton;
 ButtonLabel* startButtonBorder;
 ButtonLabel* startButtonShadow;
 
-
 struct initMenuButtons {
 	int screenResol = sf::VideoMode::getDesktopMode().height;
+	const float maxWidth = 1920;
+	const float maxHeight = 1080;
+	float screenWidth = sf::VideoMode::getDesktopMode().width;
+	float screenHeight = sf::VideoMode::getDesktopMode().height;
+
+	// Start Button
+	float sButtonWidth = screenWidth * 0.1120058565f;
+	float sButtonHeight = screenHeight * 0.06901041667f;
+	float sButtonPosX = screenWidth * 0.5168374817f;
+	float sButtonPosY = screenHeight * 0.6588541667f;
+	float sButtonTextPosX = screenWidth * 0.5285505125f;
+	float sButtonTextPosY = screenHeight * 0.6588541667f;
+	float sButtonTextSize = screenHeight * 0.05555555556f;
+
+	// Start Button Border
+	float sButtonWidthB = screenWidth * 0.1200585652f;
+	float sButtonHeightB = screenHeight * 0.08333333333f;
+	float sButtonPosBX = screenWidth * 0.5124450952f;
+	float sButtonPosBY = screenHeight * 0.6510416667f;
+	float sButtonTextPosBX = screenWidth * 0.5270863839f;
+	float sButtonTextPosBY = screenHeight * 0.6510416667f;
+
+	// Start Button Shadow
+	float sButtonWidthS = screenWidth * 0.1200585652f;
+	float sButtonHeightS = screenHeight * 0.08333333333f;
+	float sButtonPosSX = screenWidth * 0.5161054173f;
+	float sButtonPosSY = screenHeight * 0.6575520833f;
+	float sButtonTextPosSX = screenWidth * 0.5270863839f;
+	float sButtonTextPosSY = screenHeight * 0.6510416667f;
 	initMenuButtons() {
 		unsigned short r = 30, g = 144, b = 255, a = 1020; //RGBA
 		sf::Color colorshadesButton(r, g, b, a);
-		if (screenResol == 1080) {
-			startButton = new ButtonLabel(215.0512445f, 74.53125f, 992.3279649f, 711.5625f, sf::Color::Red, 1014.816984, 711.5625, 60, "START");
-			startButtonBorder = new ButtonLabel(230.5124451f, 90.0f, 983.8945827f, 703.125f, colorshadesButton, 1012.005857, 703.125, 50, "");
-			startButtonShadow = new ButtonLabel(230.5124451f, 90.0f, 990.9224012f, 710.15625f, sf::Color::Black, 1012.005857, 703.125, 50, "");
-		}
-		else if (screenResol == 768) {	
-			startButton = new ButtonLabel(153, 53, 706, 506,sf::Color::Red, 722, 506, 40, "START");
-			startButtonBorder = new ButtonLabel(164, 64, 700, 500, colorshadesButton, 720, 500, 50, "");
-			startButtonShadow = new ButtonLabel(164, 64, 705, 505, sf::Color::Black, 720, 500, 50, "");
-		}
+		startButton = new ButtonLabel(sButtonWidth, sButtonHeight, sButtonPosX, sButtonPosY ,sf::Color::Red, sButtonTextPosX, sButtonTextPosY, sButtonTextSize, "START");
+		startButtonBorder = new ButtonLabel(sButtonWidthB, sButtonHeightB, sButtonPosBX, sButtonPosBY, colorshadesButton, sButtonTextPosBX, sButtonTextPosBY, 0, "");
+		startButtonShadow = new ButtonLabel(sButtonWidthS, sButtonHeightS, sButtonPosSX, sButtonPosSY, sf::Color::Black, sButtonTextPosSX, sButtonTextPosSY, 0, "");
 	}
 };
 initMenuButtons initmenubuttons;
 sf::Vector2i menuMousePos;
 void GameMenu(sf::RenderWindow* menuWindow) {
-	if (intro.music.getStatus() != sf::Music::Playing) {
-		intro.music.play();
-		intro.music.setLoop(true);
+	if (Intromusic.music.getStatus() != sf::Music::Playing) {
+		Intromusic.music.play();
+		Intromusic.music.setLoop(true);
 	}
 	menuWindow->setMouseCursorVisible(false);
 
-	menuWindow->draw(MenuLogo.spriteMenuLogo);
+	menuWindow->draw(MenuLogoObj.sprite);
 	menuWindow->draw(*startButtonShadow->getButton());
 	menuWindow->draw(*startButtonBorder->getButton());
 	menuWindow->draw(*startButton->getButton());
 	menuWindow->draw(*startButton->getText());
 
-	menuWindow->draw(ExitIcon.exitIconSprite);
+	menuWindow->draw(ExitIconObj.sprite);
 
 	if (appInFocus(menuWindow)){
 		menuMousePos = sf::Mouse::getPosition(*menuWindow);
 		if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
 			(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
-			HandCursor.handCursorSprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
-			menuWindow->draw(HandCursor.handCursorSprite);
+			HandCursorObj.sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
+			menuWindow->draw(HandCursorObj.sprite);
 		}
-		else if ((menuMousePos.x >= ExitIcon.clickableX[0] && menuMousePos.x <= ExitIcon.clickableX[1]) &&
-			(menuMousePos.y >= ExitIcon.clickableY[0] && menuMousePos.y <= ExitIcon.clickableY[1])) {
-			HandCursor.handCursorSprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
-			menuWindow->draw(HandCursor.handCursorSprite);
+		else if ((menuMousePos.x >= ExitIconObj.clickableX[0] && menuMousePos.x <= ExitIconObj.clickableX[1]) &&
+			(menuMousePos.y >= ExitIconObj.clickableY[0] && menuMousePos.y <= ExitIconObj.clickableY[1])) {
+			HandCursorObj.sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
+			menuWindow->draw(HandCursorObj.sprite);
 			}
 		else {
-			ArrowCursor.arrowCursorSprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
-			menuWindow->draw(ArrowCursor.arrowCursorSprite);
+			ArrowCursorObj.sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
+			menuWindow->draw(ArrowCursorObj.sprite);
 		}
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
 				(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
 				SetMapProperty();
 			}
-			else if ((menuMousePos.x >= ExitIcon.clickableX[0] && menuMousePos.x <= ExitIcon.clickableX[1]) &&
-					(menuMousePos.y >= ExitIcon.clickableY[0] && menuMousePos.y <= ExitIcon.clickableY[1])) {
+			else if ((menuMousePos.x >= ExitIconObj.clickableX[0] && menuMousePos.x <= ExitIconObj.clickableX[1]) &&
+					(menuMousePos.y >= ExitIconObj.clickableY[0] && menuMousePos.y <= ExitIconObj.clickableY[1])) {
 					menuWindow->setMouseCursorVisible(true);
 				   if (MessageBoxA(NULL,"Are you sure you want to exit?", "Waldo", MB_YESNO) == IDYES)
         				menuWindow->close();					
