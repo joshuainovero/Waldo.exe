@@ -2,9 +2,9 @@
 
 bool MenuActive = true;
 bool InGameActive = false;
+int delayInGameClick;
 
 MapProperty* CurrentMap;
-
 
 bool appInFocus(sf::RenderWindow* app){
     if(app == NULL)
@@ -32,11 +32,11 @@ void SetMapProperty() {
 		case 4: CurrentMap = &MAP5; break;
 		case 5: CurrentMap = &MAP6; break;
 	}
-	intro.music.stop();
+	Intromusic.music.stop();
 	MenuActive = false;
 	InGameActive = true;
-	CurrentMap->clockRunning = true;
-	CurrentMap->clockTimer = new sf::Clock;
+	GameClockStruct::ClockRunning = true;
+	delayInGameClick = CurrentMap->gametimer.seconds - 2;
 
 }
 
