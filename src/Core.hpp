@@ -1,6 +1,7 @@
 #ifndef CORE_H
 #define CORE_H
 
+#include <SFML/Graphics.hpp>
 #include "Filemanip.hpp"
 #include "Scales.hpp"
 #include "Labels.hpp"
