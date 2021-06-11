@@ -8,6 +8,8 @@ updates/script/__pycache__/
 updates/script/build/
 updates/script/dist/
 
+src/test/
+
 tempCodeRunnerFile.hpp
 makefilebackup.txt
 *.psd
