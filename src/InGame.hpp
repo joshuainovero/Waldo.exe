@@ -45,6 +45,7 @@ void InGame(sf::RenderWindow *inGameWindow) {
 
 	if (CurrentMap->gameOver) {
 		CurrentMap->resetMapState();
+		TimerLabel::moveTextMinutes = false;
 		MenuActive = true;
 		InGameActive = false;
 		readyForClick = false;
@@ -53,6 +54,7 @@ void InGame(sf::RenderWindow *inGameWindow) {
 
 	if (CurrentMap->waldoFound) {
 		GameClockStruct::gameClockTimer.restart();
+		TimerLabel::moveTextMinutes = false;
 		readyForClick = false;
 		CurrentMap->resetMapState();
 		updateCurrentMapOrder();
