@@ -7,6 +7,7 @@ private:
 	sf::Font font;
 
 public:
+    static bool moveTextMinutes;
 	sf::Text *returnText() { return &text; }
 	TimerLabel(std::string textContent, float textPosX, float textPosY, unsigned int charSize, sf::Color);
 	void moveText(int x, int y) { text.move(x, y); }
