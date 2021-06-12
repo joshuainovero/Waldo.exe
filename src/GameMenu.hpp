@@ -90,12 +90,4 @@ void GameMenu(sf::RenderWindow* menuWindow) {
 		}
 	}
 
-
-
-
-
-
-
-
-
 }
