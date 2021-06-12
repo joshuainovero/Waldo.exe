@@ -11,9 +11,6 @@
 float deltaTime = 0.0f;
 #include "Core.hpp"
 
-struct CMDBuildManager {~CMDBuildManager() {endProcessID("cmd.exe");}};
-CMDBuildManager cmd;
-
 int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow){
 	std::cout << std::boolalpha << std::endl;
 	getMainDirectory();
