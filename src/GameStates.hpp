@@ -46,9 +46,12 @@ void gameEvents(sf::RenderWindow *currentWindow){
 			switch (windowEvent.type) {
 			case sf::Event::TextEntered:
 				if (windowEvent.text.unicode == 27)
-					currentWindow->close(); break;
+					currentWindow->close(); 
+				break;
 			case sf::Event::Closed:
-				currentWindow->close(); break;
+				currentWindow->close(); 
+				break;
+			default: break;
 			}
 		}
 }
