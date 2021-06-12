@@ -3,6 +3,9 @@ setlocal enabledelayedexpansion
 echo Build started at: %cd% && echo.
 mingw32-make
 IF %ERRORLEVEL% NEQ 0 ( 
+    if exist *.o (
+        mingw32-make clean
+    )
     echo Compilation error. && pause
     exit 0
 ) else (
