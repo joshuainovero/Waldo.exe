@@ -2,7 +2,6 @@
 
 bool MenuActive = true;
 bool InGameActive = false;
-int delayInGameClick;
 
 MapProperty* CurrentMap;
 
@@ -36,7 +35,6 @@ void SetMapProperty() {
 	MenuActive = false;
 	InGameActive = true;
 	GameClockStruct::ClockRunning = true;
-	delayInGameClick = CurrentMap->gametimer.seconds - 2;
 
 }
 
@@ -44,10 +42,6 @@ void gameEvents(sf::RenderWindow *currentWindow){
 	sf::Event windowEvent;
 		while (currentWindow->pollEvent(windowEvent)) {
 			switch (windowEvent.type) {
-			case sf::Event::TextEntered:
-				if (windowEvent.text.unicode == 27)
-					currentWindow->close(); 
-				break;
 			case sf::Event::Closed:
 				currentWindow->close(); 
 				break;
