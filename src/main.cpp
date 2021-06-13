@@ -9,6 +9,7 @@
 #include <direct.h>
 
 float deltaTime = 0.0f;
+bool mouseDown = true;
 #include "Core.hpp"
 
 int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow){
