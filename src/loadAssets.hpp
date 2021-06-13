@@ -73,24 +73,24 @@ struct PAUSESCREEN : public SpriteLoader {
 	//615 -> 791         460 -> 510
 	virtual void SetSpriteScale() override {
 		sprite.setScale(sf::Vector2f(scaleresol.getFullScreenSpriteScale(), scaleresol.getFullScreenSpriteScale()));
-		screenSize.x = sf::VideoMode::getDesktopMode().width;
-		screenSize.y = sf::VideoMode::getDesktopMode().height;
-
-		// Range Resume
-		rRangeClickX[0] = screenSize.x * 0.4502196193;
-		rRangeClickX[1] = screenSize.x * 0.5790629575;
-		rRangeClickY[0] = screenSize.y * 0.4596354167;
-		rRangeClickY[1] = screenSize.y * 0.5247395833;
-
-		//Range Quit
-		qRangeClickX[0] = screenSize.x * 0.4502196193;
-		qRangeClickX[1] = screenSize.x * 0.5790629575;
-		qRangeClickY[0] = screenSize.y * 0.5989583333;
-		qRangeClickY[1] = screenSize.y * 0.6640625;
 	}
 	PAUSESCREEN(const std::string &pathA)
 		:SpriteLoader(pathA){
 			SetSpriteScale();
+			screenSize.x = sf::VideoMode::getDesktopMode().width;
+			screenSize.y = sf::VideoMode::getDesktopMode().height;
+
+			// Range Resume
+			rRangeClickX[0] = screenSize.x * 0.4502196193;
+			rRangeClickX[1] = screenSize.x * 0.5790629575;
+			rRangeClickY[0] = screenSize.y * 0.4596354167;
+			rRangeClickY[1] = screenSize.y * 0.5247395833;
+
+			//Range Quit
+			qRangeClickX[0] = screenSize.x * 0.4502196193;
+			qRangeClickX[1] = screenSize.x * 0.5790629575;
+			qRangeClickY[0] = screenSize.y * 0.5989583333;
+			qRangeClickY[1] = screenSize.y * 0.6640625;
 		}
 	bool resumeInRange(const sf::Vector2i &mousePos){
 		return ((mousePos.x >= rRangeClickX[0] && mousePos.x <= rRangeClickX[1]) && 
@@ -99,6 +99,31 @@ struct PAUSESCREEN : public SpriteLoader {
 	bool quitInRange(const sf::Vector2i &mousePos) {
 		return ((mousePos.x >= qRangeClickX[0] && mousePos.x <= qRangeClickX[1]) &&
 			(mousePos.y >= qRangeClickY[0] && mousePos.y <= qRangeClickY[1]));
+	}
+};
+
+struct GAMEEND : public SpriteLoader {
+	sf::Vector2i screenSize;
+	int cRangeClickX[2], cRangeClickY[2];
+	//606 -> 759         454 -> 495
+	virtual void SetSpriteScale() override {
+		sprite.setScale(sf::Vector2f(scaleresol.getFullScreenSpriteScale(), scaleresol.getFullScreenSpriteScale()));
+	}
+	GAMEEND(const std::string &pathA)
+		:SpriteLoader(pathA){
+			SetSpriteScale();
+			screenSize.x = sf::VideoMode::getDesktopMode().width;
+			screenSize.y = sf::VideoMode::getDesktopMode().height;
+
+			// Range continue
+			cRangeClickX[0] = screenSize.x * 0.4436310395;
+			cRangeClickX[1] = screenSize.x * 0.555636896;
+			cRangeClickY[0] = screenSize.y * 0.5911458333;
+			cRangeClickY[1] = screenSize.y * 0.64453125;
+		}
+	bool continueInRange(const sf::Vector2i &mousePos){
+		return ((mousePos.x >= cRangeClickX[0] && mousePos.x <= cRangeClickX[1]) &&
+			(mousePos.y >= cRangeClickY[0] && mousePos.y <= cRangeClickY[1]));
 	}
 };
 
@@ -133,8 +158,10 @@ ARROWCURSOR ArrowCursorObj("Assets/Cursors/ArrowCursor.png");
 HANDCURSOR HandCursorObj("Assets/Cursors/HandCursor.png");
 CIRCLECURSOR CircleCursorObj("Assets/Cursors/redcirclesprite.png");
 EXITICON ExitIconObj("Assets/Icon/InIcons/exit.png");
-MENULOGO MenuLogoObj("Assets/Maps/MenuUI.png");
-PAUSESCREEN PauseScreenObj("Assets/Maps/Pause.png");
+MENULOGO MenuLogoObj("Assets/fsSprites/States/MenuUI.png");
+PAUSESCREEN PauseScreenObj("Assets/fsSprites/States/Pause.png");
+GAMEEND WaldoFoundObj("Assets/fsSprites/States/Found.png");
+GAMEEND GameOverObj("Assets/fsSprites/States/Gameover.png");
 
 GAMEMUSIC Intromusic("Assets/Audio/music/MenuMusic.wav");
 SOUNDEFFECT WrongClickEffect("Assets/Audio/SoundEffects/WrongClick.wav");
@@ -142,9 +169,9 @@ SOUNDEFFECT WallyFoundEffect("Assets/Audio/SoundEffects/WallyFound.wav");
 
 
 // MAPS
-MapProperty MAP1("Assets/Maps/Map1.png", "Map1", GameTimer::m1TimeCounts);
-MapProperty MAP2("Assets/Maps/Map2.png", "Map2", GameTimer::m2TimeCounts);
-MapProperty MAP3("Assets/Maps/Map3.png", "Map3", GameTimer::m3TimeCounts);
-MapProperty MAP4("Assets/Maps/Map4.png", "Map4", GameTimer::m4TimeCounts);
-MapProperty MAP5("Assets/Maps/Map5.png", "Map5", GameTimer::m5TimeCounts);
-MapProperty MAP6("Assets/Maps/Map6.png", "Map6", GameTimer::m6TimeCounts);
+MapProperty MAP1("Assets/fsSprites/Maps/Map1.png", "Map1", GameTimer::m1TimeCounts);
+MapProperty MAP2("Assets/fsSprites/Maps/Map2.png", "Map2", GameTimer::m2TimeCounts);
+MapProperty MAP3("Assets/fsSprites/Maps/Map3.png", "Map3", GameTimer::m3TimeCounts);
+MapProperty MAP4("Assets/fsSprites/Maps/Map4.png", "Map4", GameTimer::m4TimeCounts);
+MapProperty MAP5("Assets/fsSprites/Maps/Map5.png", "Map5", GameTimer::m5TimeCounts);
+MapProperty MAP6("Assets/fsSprites/Maps/Map6.png", "Map6", GameTimer::m6TimeCounts);
