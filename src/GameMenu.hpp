@@ -77,17 +77,21 @@ void GameMenu(sf::RenderWindow* menuWindow) {
 			menuWindow->draw(ArrowCursorObj.sprite);
 		}
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
-				(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
-				SetMapProperty();
+			if (!mouseDown){
+				if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
+					(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
+					SetMapProperty();
+				}
+				else if ((menuMousePos.x >= ExitIconObj.clickableX[0] && menuMousePos.x <= ExitIconObj.clickableX[1]) &&
+						(menuMousePos.y >= ExitIconObj.clickableY[0] && menuMousePos.y <= ExitIconObj.clickableY[1])) {
+						menuWindow->setMouseCursorVisible(true);
+					if (MessageBoxA(NULL,"Are you sure you want to exit?", "Waldo", MB_YESNO) == IDYES)
+							menuWindow->close();					
+				}
+				mouseDown = true;
 			}
-			else if ((menuMousePos.x >= ExitIconObj.clickableX[0] && menuMousePos.x <= ExitIconObj.clickableX[1]) &&
-					(menuMousePos.y >= ExitIconObj.clickableY[0] && menuMousePos.y <= ExitIconObj.clickableY[1])) {
-					menuWindow->setMouseCursorVisible(true);
-				   if (MessageBoxA(NULL,"Are you sure you want to exit?", "Waldo", MB_YESNO) == IDYES)
-        				menuWindow->close();					
-			}
-		}
+		} else
+			mouseDown = false;
 	}
 
 }
