@@ -8,11 +8,11 @@ void InGame(sf::RenderWindow *inGameWindow) {
 	inGameWindow->setMouseCursorVisible(false);
 	if (gamePause) {
 		inGameMousePos = sf::Mouse::getPosition(*inGameWindow);
-		inGameWindow->draw(PauseScreenObj.sprite);
+		inGameWindow->draw(PauseScreenObj->sprite);
 
-		if (PauseScreenObj.resumeInRange(inGameMousePos)){
-			HandCursorObj.sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-			inGameWindow->draw(HandCursorObj.sprite);
+		if (PauseScreenObj->resumeInRange(inGameMousePos)){
+			HandCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+			inGameWindow->draw(HandCursorObj->sprite);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 				if (!mouseDown){
 					gamePause = false;
@@ -21,9 +21,9 @@ void InGame(sf::RenderWindow *inGameWindow) {
 			} else
 				mouseDown = false;
 		}
-		else if (PauseScreenObj.quitInRange(inGameMousePos)){
-			HandCursorObj.sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-			inGameWindow->draw(HandCursorObj.sprite);
+		else if (PauseScreenObj->quitInRange(inGameMousePos)){
+			HandCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+			inGameWindow->draw(HandCursorObj->sprite);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 				inGameWindow->setMouseCursorVisible(true);
 				if (MessageBoxA(NULL,"Are you sure you want to go to the main menu?", "Waldo", MB_YESNO) == IDYES){
@@ -36,8 +36,8 @@ void InGame(sf::RenderWindow *inGameWindow) {
 				}
 			}
 		} else {
-			ArrowCursorObj.sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-			inGameWindow->draw(ArrowCursorObj.sprite);
+			ArrowCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+			inGameWindow->draw(ArrowCursorObj->sprite);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
 			if (!keyDown){
@@ -52,10 +52,10 @@ void InGame(sf::RenderWindow *inGameWindow) {
 			inGameMousePos = sf::Mouse::getPosition(*inGameWindow);
 			inGameWindow->draw(CurrentMap->returnSprite());
 			CurrentMap->gametimer.drawTimer(inGameWindow);
-			inGameWindow->draw(WaldoFoundObj.sprite);
-			if (WaldoFoundObj.continueInRange(inGameMousePos)){
-				HandCursorObj.sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-				inGameWindow->draw(HandCursorObj.sprite);
+			inGameWindow->draw(WaldoFoundObj->sprite);
+			if (WaldoFoundObj->continueInRange(inGameMousePos)){
+				HandCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+				inGameWindow->draw(HandCursorObj->sprite);
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 					if (!mouseDown){
 						GameClockStruct::gameClockTimer.restart();
@@ -68,17 +68,17 @@ void InGame(sf::RenderWindow *inGameWindow) {
 				} else
 					mouseDown = false;
 			} else {
-				ArrowCursorObj.sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-				inGameWindow->draw(ArrowCursorObj.sprite);
+				ArrowCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+				inGameWindow->draw(ArrowCursorObj->sprite);
 			}
 		} else if (CurrentMap->gameOver){
 			inGameMousePos = sf::Mouse::getPosition(*inGameWindow);
 			inGameWindow->draw(CurrentMap->returnSprite());
 			CurrentMap->gametimer.drawTimer(inGameWindow);
-			inGameWindow->draw(GameOverObj.sprite);
-			if (GameOverObj.continueInRange(inGameMousePos)){
-				HandCursorObj.sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-				inGameWindow->draw(HandCursorObj.sprite);
+			inGameWindow->draw(GameOverObj->sprite);
+			if (GameOverObj->continueInRange(inGameMousePos)){
+				HandCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+				inGameWindow->draw(HandCursorObj->sprite);
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 					if (!mouseDown){
 						CurrentMap->resetMapState();
@@ -90,13 +90,13 @@ void InGame(sf::RenderWindow *inGameWindow) {
 				} else
 					mouseDown = false;
 			} else {
-				ArrowCursorObj.sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-				inGameWindow->draw(ArrowCursorObj.sprite);
+				ArrowCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+				inGameWindow->draw(ArrowCursorObj->sprite);
 			}
 
 		} else {
-			CircleCursorObj.AnimationCircle.Update(CircleCursorObj.AnimationCircle.currentRow, deltaTime);
-			CircleCursorObj.sprite.setTextureRect(CircleCursorObj.AnimationCircle.uvRect);
+			CircleCursorObj->AnimationCircle.Update(CircleCursorObj->AnimationCircle.currentRow, deltaTime);
+			CircleCursorObj->sprite.setTextureRect(CircleCursorObj->AnimationCircle.uvRect);
 			
 			if (appInFocus(inGameWindow)){
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
@@ -108,18 +108,18 @@ void InGame(sf::RenderWindow *inGameWindow) {
 					keyDown = false;
 				}
 				inGameMousePos = sf::Mouse::getPosition(*inGameWindow);
-				CircleCursorObj.sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+				CircleCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
 				
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) { // If wally is found
 					if (!mouseDown){
 						if (CurrentMap->checkMouseClick(inGameMousePos)) {
-							WallyFoundEffect.sound.play();
+							WallyFoundEffect->sound.play();
 							CurrentMap->waldoFound = true;
 							if (GameClockStruct::ClockRunning) {
 								GameClockStruct::ClockRunning = false;
 							}
 						}
-						else WrongClickEffect.sound.play();
+						else WrongClickEffect->sound.play();
 						mouseDown = true;
 					}
 				} else
@@ -134,7 +134,7 @@ void InGame(sf::RenderWindow *inGameWindow) {
 				CurrentMap->gametimer.UpdateTimer();
 
 			inGameWindow->draw(CurrentMap->returnSprite());
-			inGameWindow->draw(CircleCursorObj.sprite);
+			inGameWindow->draw(CircleCursorObj->sprite);
 			CurrentMap->gametimer.drawTimer(inGameWindow);
 
 
