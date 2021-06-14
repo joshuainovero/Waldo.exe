@@ -1,12 +1,17 @@
 #pragma once
+#include <thread>
 
 struct SpriteLoader {
 	sf::Texture texture;
 	sf::Sprite sprite;
 	virtual void SetSpriteScale() = 0;
 	SpriteLoader(const std::string &path){
-		texture.loadFromFile(path);
+		EDassets::decryptFile(path);
+		texture.loadFromFile(path + ".png");
 		sprite.setTexture(texture);
+		increaseBar(BARUI::barload);
+		EDassets::encryptFile(path + ".png");
+		increaseBar(BARUI::barload);
 	}
 };
 
@@ -143,6 +148,7 @@ struct SOUNDEFFECT {
 	SOUNDEFFECT(const std::string &path){
 		buffer.loadFromFile(path);
 		sound.setBuffer(buffer);
+		increaseBar(BARUI::barload);
 	}
 };
 
@@ -150,28 +156,81 @@ struct GAMEMUSIC {
 	sf::Music music;
 	GAMEMUSIC(const std::string &path){
 		music.openFromFile(path);
+		increaseBar(BARUI::barload);
 	}
 };
 
-// ASSETS
-ARROWCURSOR ArrowCursorObj("Assets/Cursors/ArrowCursor.png");
-HANDCURSOR HandCursorObj("Assets/Cursors/HandCursor.png");
-CIRCLECURSOR CircleCursorObj("Assets/Cursors/redcirclesprite.png");
-EXITICON ExitIconObj("Assets/Icon/InIcons/exit.png");
-MENULOGO MenuLogoObj("Assets/fsSprites/States/MenuUI.png");
-PAUSESCREEN PauseScreenObj("Assets/fsSprites/States/Pause.png");
-GAMEEND WaldoFoundObj("Assets/fsSprites/States/Found.png");
-GAMEEND GameOverObj("Assets/fsSprites/States/Gameover.png");
+ARROWCURSOR *ArrowCursorObj;
+HANDCURSOR *HandCursorObj;
+CIRCLECURSOR *CircleCursorObj;
+EXITICON *ExitIconObj;
+MENULOGO *MenuLogoObj;
+PAUSESCREEN *PauseScreenObj;
+GAMEEND *WaldoFoundObj;
+GAMEEND *GameOverObj;
 
-GAMEMUSIC Intromusic("Assets/Audio/music/MenuMusic.wav");
-SOUNDEFFECT WrongClickEffect("Assets/Audio/SoundEffects/WrongClick.wav");
-SOUNDEFFECT WallyFoundEffect("Assets/Audio/SoundEffects/WallyFound.wav");
+GAMEMUSIC *Intromusic;
+SOUNDEFFECT *WrongClickEffect;
+SOUNDEFFECT *WallyFoundEffect;
 
+MapProperty *MAP1;
+MapProperty *MAP2;
+MapProperty *MAP3;
+MapProperty *MAP4;
+MapProperty *MAP5;
+MapProperty *MAP6;
 
-// MAPS
-MapProperty MAP1("Assets/fsSprites/Maps/Map1.png", "Map1", GameTimer::m1TimeCounts);
-MapProperty MAP2("Assets/fsSprites/Maps/Map2.png", "Map2", GameTimer::m2TimeCounts);
-MapProperty MAP3("Assets/fsSprites/Maps/Map3.png", "Map3", GameTimer::m3TimeCounts);
-MapProperty MAP4("Assets/fsSprites/Maps/Map4.png", "Map4", GameTimer::m4TimeCounts);
-MapProperty MAP5("Assets/fsSprites/Maps/Map5.png", "Map5", GameTimer::m5TimeCounts);
-MapProperty MAP6("Assets/fsSprites/Maps/Map6.png", "Map6", GameTimer::m6TimeCounts);
+static bool done = false;
+
+void loadAssets(){
+	ArrowCursorObj = new ARROWCURSOR("Assets/Cursors/ArrowCursor");
+	HandCursorObj = new HANDCURSOR("Assets/Cursors/HandCursor");
+	CircleCursorObj = new CIRCLECURSOR("Assets/Cursors/redcirclesprite");
+	ExitIconObj = new EXITICON("Assets/Icon/InIcons/exit");
+	MenuLogoObj = new MENULOGO("Assets/fsSprites/States/MenuUI");
+	PauseScreenObj = new PAUSESCREEN("Assets/fsSprites/States/Pause");
+	WaldoFoundObj = new GAMEEND("Assets/fsSprites/States/Found");
+	GameOverObj = new GAMEEND("Assets/fsSprites/States/Gameover");
+
+	Intromusic = new GAMEMUSIC("Assets/Audio/music/MenuMusic.wav");
+	WrongClickEffect = new SOUNDEFFECT("Assets/Audio/SoundEffects/WrongClick.wav");
+	WallyFoundEffect = new SOUNDEFFECT("Assets/Audio/SoundEffects/WallyFound.wav");
+
+	MAP1 = new MapProperty("Assets/fsSprites/Maps/Map1", "Map1", GameTimer::m1TimeCounts);
+	MAP2 = new MapProperty("Assets/fsSprites/Maps/Map2", "Map2", GameTimer::m2TimeCounts);
+	MAP3 = new MapProperty("Assets/fsSprites/Maps/Map3", "Map3", GameTimer::m3TimeCounts);
+	MAP4 = new MapProperty("Assets/fsSprites/Maps/Map4", "Map4", GameTimer::m4TimeCounts);
+	MAP5 = new MapProperty("Assets/fsSprites/Maps/Map5", "Map5", GameTimer::m5TimeCounts);
+	MAP6 = new MapProperty("Assets/fsSprites/Maps/Map6", "Map6", GameTimer::m6TimeCounts);
+
+	done = true;
+}
+
+void windowLoad(){
+	sf::RenderWindow loadWindow(sf::VideoMode(sf::VideoMode::getDesktopMode().width * 0.50, sf::VideoMode::getDesktopMode().height * 0.50), "Where's Wally?", sf::Style::None);
+	std::unique_ptr<sf::Texture> textureLoading = std::make_unique<sf::Texture>();
+	std::unique_ptr<sf::Sprite> spriteLoading = std::make_unique<sf::Sprite>();
+	float spriteScale = (sf::VideoMode::getDesktopMode().height * 0.50) / 1080.0f;
+	textureLoading->loadFromFile("Assets/fsSprites/States/Loading.png");
+	spriteLoading->setTexture(*textureLoading);
+	spriteLoading->setScale(spriteScale, spriteScale);
+	BARUI::SETPOSITION(loadWindow);
+	std::thread threadLoadAssets(loadAssets);
+	while (loadWindow.isOpen()){
+		sf::Event evnt;
+		while (loadWindow.pollEvent(evnt)){
+		if (evnt.type == sf::Event::Closed)
+			loadWindow.close();
+		}
+		loadWindow.clear();
+		loadWindow.draw(*spriteLoading);
+		loadWindow.draw(BARUI::barlimit);
+		loadWindow.draw(BARUI::barload);
+		loadWindow.display();
+
+		if (done)
+			loadWindow.close();
+	}
+	threadLoadAssets.join();
+
+}
