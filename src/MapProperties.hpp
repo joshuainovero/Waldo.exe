@@ -1,10 +1,11 @@
 #pragma once
-#include <SFML\Graphics.hpp>
+
 #include <string>
 #include <unordered_map>
 #include <array>
 #include <utility>
 #include "GameTimer.hpp"
+#include "EDassets.hpp"
 
 class MapProperty {	
 friend struct WALDOPOSINITIALIZER;
@@ -26,5 +27,4 @@ public:
 
 	~MapProperty() {}
 };
-
 
