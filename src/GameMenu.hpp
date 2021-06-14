@@ -46,35 +46,35 @@ struct initMenuButtons {
 initMenuButtons initmenubuttons;
 sf::Vector2i menuMousePos;
 void GameMenu(sf::RenderWindow* menuWindow) {
-	if (Intromusic.music.getStatus() != sf::Music::Playing) {
-		Intromusic.music.play();
-		Intromusic.music.setLoop(true);
+	if (Intromusic->music.getStatus() != sf::Music::Playing) {
+		Intromusic->music.play();
+		Intromusic->music.setLoop(true);
 	}
 	menuWindow->setMouseCursorVisible(false);
 
-	menuWindow->draw(MenuLogoObj.sprite);
+	menuWindow->draw(MenuLogoObj->sprite);
 	menuWindow->draw(*startButtonShadow->getButton());
 	menuWindow->draw(*startButtonBorder->getButton());
 	menuWindow->draw(*startButton->getButton());
 	menuWindow->draw(*startButton->getText());
 
-	menuWindow->draw(ExitIconObj.sprite);
+	menuWindow->draw(ExitIconObj->sprite);
 
 	if (appInFocus(menuWindow)){
 		menuMousePos = sf::Mouse::getPosition(*menuWindow);
 		if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
 			(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
-			HandCursorObj.sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
-			menuWindow->draw(HandCursorObj.sprite);
+			HandCursorObj->sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
+			menuWindow->draw(HandCursorObj->sprite);
 		}
-		else if ((menuMousePos.x >= ExitIconObj.clickableX[0] && menuMousePos.x <= ExitIconObj.clickableX[1]) &&
-			(menuMousePos.y >= ExitIconObj.clickableY[0] && menuMousePos.y <= ExitIconObj.clickableY[1])) {
-			HandCursorObj.sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
-			menuWindow->draw(HandCursorObj.sprite);
+		else if ((menuMousePos.x >= ExitIconObj->clickableX[0] && menuMousePos.x <= ExitIconObj->clickableX[1]) &&
+			(menuMousePos.y >= ExitIconObj->clickableY[0] && menuMousePos.y <= ExitIconObj->clickableY[1])) {
+			HandCursorObj->sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
+			menuWindow->draw(HandCursorObj->sprite);
 			}
 		else {
-			ArrowCursorObj.sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
-			menuWindow->draw(ArrowCursorObj.sprite);
+			ArrowCursorObj->sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
+			menuWindow->draw(ArrowCursorObj->sprite);
 		}
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			if (!mouseDown){
@@ -82,8 +82,8 @@ void GameMenu(sf::RenderWindow* menuWindow) {
 					(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
 					SetMapProperty();
 				}
-				else if ((menuMousePos.x >= ExitIconObj.clickableX[0] && menuMousePos.x <= ExitIconObj.clickableX[1]) &&
-						(menuMousePos.y >= ExitIconObj.clickableY[0] && menuMousePos.y <= ExitIconObj.clickableY[1])) {
+				else if ((menuMousePos.x >= ExitIconObj->clickableX[0] && menuMousePos.x <= ExitIconObj->clickableX[1]) &&
+						(menuMousePos.y >= ExitIconObj->clickableY[0] && menuMousePos.y <= ExitIconObj->clickableY[1])) {
 						menuWindow->setMouseCursorVisible(true);
 					if (MessageBoxA(NULL,"Are you sure you want to exit?", "Waldo", MB_YESNO) == IDYES)
 							menuWindow->close();					
