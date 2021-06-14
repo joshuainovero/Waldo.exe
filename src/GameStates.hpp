@@ -24,14 +24,14 @@ bool appInFocus(sf::RenderWindow* app){
 
 void SetMapProperty() {
 	switch (getDataJson()["gameplay-status"]["currentmaporder"].asInt()) {
-		case 0: CurrentMap = &MAP1; break;
-		case 1: CurrentMap = &MAP2; break;
-		case 2: CurrentMap = &MAP3; break;
-		case 3: CurrentMap = &MAP4; break;
-		case 4: CurrentMap = &MAP5; break;
-		case 5: CurrentMap = &MAP6; break;
+		case 0: CurrentMap = MAP1; break;
+		case 1: CurrentMap = MAP2; break;
+		case 2: CurrentMap = MAP3; break;
+		case 3: CurrentMap = MAP4; break;
+		case 4: CurrentMap = MAP5; break;
+		case 5: CurrentMap = MAP6; break;
 	}
-	Intromusic.music.stop();
+	Intromusic->music.stop();
 	MenuActive = false;
 	InGameActive = true;
 	GameClockStruct::ClockRunning = true;
