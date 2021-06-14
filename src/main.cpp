@@ -13,7 +13,7 @@ bool mouseDown = true;
 #include "Core.hpp"
 
 int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow){
-	std::cout << std::boolalpha << std::endl;
+	windowLoad();
 	getMainDirectory();
 	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Where's Wally?", sf::Style::Close | sf::Style::Fullscreen);
 	window.setVerticalSyncEnabled(true);
