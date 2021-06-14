@@ -1,9 +1,15 @@
 #include "WaldoPositions.hpp"
+#include <fstream>
+#include <iostream>
 
 MapProperty::MapProperty(std::string fileName, std::string key, const int mapTimerCounts[2])
 	: gametimer(mapTimerCounts) {
-	texture.loadFromFile(fileName);
+	EDassets::decryptFile(fileName);
+	texture.loadFromFile(fileName + ".png");
 	sprite.setTexture(texture);
+	increaseBar(BARUI::barload);
+	EDassets::encryptFile(fileName + ".png");
+	increaseBar(BARUI::barload);
 	mapOrder = key;
 	const float mapScale = float(sf::VideoMode::getDesktopMode().height / 1080.0f);
 	sprite.setScale(sf::Vector2f(mapScale, mapScale));
