@@ -1,15 +1,10 @@
-# Release
-*.o
+# directories
 Build/
-
-# Pyinstaller
-*.spec
-updates/script/__pycache__/
-updates/script/build/
-updates/script/dist/
-
+psd/
 src/test/
 
+# spec files
 tempCodeRunnerFile.hpp
+encrypt.cpp
+Assets/Codes.txt
 makefilebackup.txt
-*.psd
