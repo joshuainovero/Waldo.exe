@@ -1,10 +1,10 @@
-
+#pragma once
 class ButtonLabel {
 private:
 	sf::RectangleShape button;
 	sf::Text text;
 	sf::Font font;
-
+	
 public:
 	int clickableX[2], clickableY[2];
 	sf::RectangleShape *getButton() { return &button; }
@@ -52,15 +52,3 @@ TextLabel::TextLabel(std::string textContent,float textPosX, float textPosY, uns
 	text.setCharacterSize(charSize);
 
 }
-
-
-//TextLabel timerDisplaySeconds("-", sf::VideoMode::getDesktopMode().width / 2, 40.0, 50, sf::Color::White);
-//TextLabel timerDisplayColon(":", (sf::VideoMode::getDesktopMode().width / 2) - 20, 40.0, 50, sf::Color::White);
-//TextLabel timerDisplayMinutes("-", (sf::VideoMode::getDesktopMode().width / 2) - (65 + 20) + 35, 40.0, 50, sf::Color::White);
-//
-////Shadow Properties
-//TextLabel timerShadowSeconds("-", (sf::VideoMode::getDesktopMode().width / 2) + 5, 45.0, 51, sf::Color::Black);
-//TextLabel timerShadowColon(":", (sf::VideoMode::getDesktopMode().width / 2) - 15, 45.0, 51, sf::Color::Black);
-//TextLabel timerShadowMinutes("-", ((sf::VideoMode::getDesktopMode().width / 2) - (65 + 20) + 35) + 5, 45.0, 51, sf::Color::Black);
-
-
