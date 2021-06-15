@@ -1,6 +1,10 @@
 #pragma once
 #include <thread>
 
+struct illegal : public std::exception {
+	
+};
+
 struct SpriteLoader {
 	sf::Texture texture;
 	sf::Sprite sprite;
@@ -183,37 +187,40 @@ MapProperty *MAP6;
 static bool done = false;
 
 void loadAssets(){
-	ArrowCursorObj = new ARROWCURSOR("Assets/Cursors/ArrowCursor");
-	HandCursorObj = new HANDCURSOR("Assets/Cursors/HandCursor");
-	CircleCursorObj = new CIRCLECURSOR("Assets/Cursors/redcirclesprite");
-	ExitIconObj = new EXITICON("Assets/Icon/InIcons/exit");
-	MenuLogoObj = new MENULOGO("Assets/fsSprites/States/MenuUI");
-	PauseScreenObj = new PAUSESCREEN("Assets/fsSprites/States/Pause");
-	WaldoFoundObj = new GAMEEND("Assets/fsSprites/States/Found");
-	GameOverObj = new GAMEEND("Assets/fsSprites/States/Gameover");
+	ArrowCursorObj = new ARROWCURSOR("Assets/001/001-ac");
+	HandCursorObj = new HANDCURSOR("Assets/001/001-hc");
+	CircleCursorObj = new CIRCLECURSOR("Assets/001/001-rcs");
+	ExitIconObj = new EXITICON("Assets/002/002-ex");
+	MenuLogoObj = new MENULOGO("Assets/004/004-mui");
+	PauseScreenObj = new PAUSESCREEN("Assets/004/004-pse");
+	WaldoFoundObj = new GAMEEND("Assets/004/004-fnd");
+	GameOverObj = new GAMEEND("Assets/004/004-go");
 
 	Intromusic = new GAMEMUSIC("Assets/Audio/music/MenuMusic.wav");
 	WrongClickEffect = new SOUNDEFFECT("Assets/Audio/SoundEffects/WrongClick.wav");
 	WallyFoundEffect = new SOUNDEFFECT("Assets/Audio/SoundEffects/WallyFound.wav");
 
-	MAP1 = new MapProperty("Assets/fsSprites/Maps/Map1", "Map1", GameTimer::m1TimeCounts);
-	MAP2 = new MapProperty("Assets/fsSprites/Maps/Map2", "Map2", GameTimer::m2TimeCounts);
-	MAP3 = new MapProperty("Assets/fsSprites/Maps/Map3", "Map3", GameTimer::m3TimeCounts);
-	MAP4 = new MapProperty("Assets/fsSprites/Maps/Map4", "Map4", GameTimer::m4TimeCounts);
-	MAP5 = new MapProperty("Assets/fsSprites/Maps/Map5", "Map5", GameTimer::m5TimeCounts);
-	MAP6 = new MapProperty("Assets/fsSprites/Maps/Map6", "Map6", GameTimer::m6TimeCounts);
+	MAP1 = new MapProperty("Assets/003/003-m1", "Map1", GameTimer::m1TimeCounts);
+	MAP2 = new MapProperty("Assets/003/003-m2", "Map2", GameTimer::m2TimeCounts);
+	MAP3 = new MapProperty("Assets/003/003-m3", "Map3", GameTimer::m3TimeCounts);
+	MAP4 = new MapProperty("Assets/003/003-m4", "Map4", GameTimer::m4TimeCounts);
+	MAP5 = new MapProperty("Assets/003/003-m5", "Map5", GameTimer::m5TimeCounts);
+	MAP6 = new MapProperty("Assets/003/003-m6", "Map6", GameTimer::m6TimeCounts);
 
 	done = true;
 }
 
 void windowLoad(){
-	sf::RenderWindow loadWindow(sf::VideoMode(sf::VideoMode::getDesktopMode().width * 0.50, sf::VideoMode::getDesktopMode().height * 0.50), "Where's Wally?", sf::Style::None);
 	std::unique_ptr<sf::Texture> textureLoading = std::make_unique<sf::Texture>();
 	std::unique_ptr<sf::Sprite> spriteLoading = std::make_unique<sf::Sprite>();
 	float spriteScale = (sf::VideoMode::getDesktopMode().height * 0.50) / 1080.0f;
-	textureLoading->loadFromFile("Assets/fsSprites/States/Loading.png");
+	EDassets::decryptFile("Assets/004/004-ld");
+	textureLoading->loadFromFile("Assets/004/004-ld.png");
 	spriteLoading->setTexture(*textureLoading);
 	spriteLoading->setScale(spriteScale, spriteScale);
+	EDassets::encryptFile("Assets/004/004-ld.png");
+	sf::RenderWindow loadWindow(sf::VideoMode(sf::VideoMode::getDesktopMode().width * 0.50, sf::VideoMode::getDesktopMode().height * 0.50), "Where's Wally?", sf::Style::None);
+
 	BARUI::SETPOSITION(loadWindow);
 	std::thread threadLoadAssets(loadAssets);
 	while (loadWindow.isOpen()){
