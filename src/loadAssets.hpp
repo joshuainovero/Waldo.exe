@@ -1,21 +1,25 @@
 #pragma once
 #include <thread>
 
-struct illegal : public std::exception {
-	
-};
-
 struct SpriteLoader {
 	sf::Texture texture;
 	sf::Sprite sprite;
 	virtual void SetSpriteScale() = 0;
 	SpriteLoader(const std::string &path){
-		EDassets::decryptFile(path);
-		texture.loadFromFile(path + ".png");
-		sprite.setTexture(texture);
-		increaseBar(BARUI::barload);
-		EDassets::encryptFile(path + ".png");
-		increaseBar(BARUI::barload);
+		try{
+			std::ifstream checkSpriteLoader(path);
+			if (!checkSpriteLoader.good())
+				throw path;
+			EDassets::decryptFile(path);
+			increaseBar(BARUI::barload);
+			texture.loadFromFile("Assets/sprite.png");
+			sprite.setTexture(texture);
+			increaseBar(BARUI::barload);
+		} catch (const std::string &threwPath){
+			if (MessageBoxA(NULL,"An asset has been corrupted or deleted. Please reinstall", "Waldo", MB_ICONERROR) == IDOK)
+				abort();
+		}
+
 	}
 };
 
@@ -215,10 +219,12 @@ void windowLoad(){
 	std::unique_ptr<sf::Sprite> spriteLoading = std::make_unique<sf::Sprite>();
 	float spriteScale = (sf::VideoMode::getDesktopMode().height * 0.50) / 1080.0f;
 	EDassets::decryptFile("Assets/004/004-ld");
-	textureLoading->loadFromFile("Assets/004/004-ld.png");
+	increaseBar(BARUI::barload);
+	textureLoading->loadFromFile("Assets/sprite.png");
 	spriteLoading->setTexture(*textureLoading);
+	increaseBar(BARUI::barload);
 	spriteLoading->setScale(spriteScale, spriteScale);
-	EDassets::encryptFile("Assets/004/004-ld.png");
+	
 	sf::RenderWindow loadWindow(sf::VideoMode(sf::VideoMode::getDesktopMode().width * 0.50, sf::VideoMode::getDesktopMode().height * 0.50), "Where's Wally?", sf::Style::None);
 
 	BARUI::SETPOSITION(loadWindow);

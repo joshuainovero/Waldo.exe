@@ -1,20 +1,28 @@
 #include "WaldoPositions.hpp"
+#include <Windows.h>
 #include <fstream>
 #include <iostream>
 
-MapProperty::MapProperty(std::string fileName, std::string key, const int mapTimerCounts[2])
+MapProperty::MapProperty(const std::string &fileName, const std::string &key, const int mapTimerCounts[2])
 	: gametimer(mapTimerCounts) {
-	EDassets::decryptFile(fileName);
-	texture.loadFromFile(fileName + ".png");
-	sprite.setTexture(texture);
-	increaseBar(BARUI::barload);
-	EDassets::encryptFile(fileName + ".png");
-	increaseBar(BARUI::barload);
-	mapOrder = key;
-	const float mapScale = float(sf::VideoMode::getDesktopMode().height / 1080.0f);
-	sprite.setScale(sf::Vector2f(mapScale, mapScale));
-	for (size_t i = 0; i < waldopositions.MapResol[key].size(); ++i)
-		waldoPosition[i] = waldopositions.MapResol[key][i];
+	try{
+	std::ifstream checkFile(fileName);
+		if (!checkFile.good())
+			throw fileName;
+		EDassets::decryptFile(fileName);
+		increaseBar(BARUI::barload);
+		texture.loadFromFile("Assets/sprite.png");
+		sprite.setTexture(texture);
+		increaseBar(BARUI::barload);
+		mapOrder = key;
+		const float mapScale = float(sf::VideoMode::getDesktopMode().height / 1080.0f);
+		sprite.setScale(sf::Vector2f(mapScale, mapScale));
+		for (size_t i = 0; i < waldopositions.MapResol[key].size(); ++i)
+			waldoPosition[i] = waldopositions.MapResol[key][i];
+	} catch (const std::string &threwFileName){
+		if (MessageBoxA(NULL,"An asset has been corrupted or deleted. Please reinstall", "Waldo", MB_ICONERROR) == IDOK)
+			abort();
+	}
 }
 
 bool MapProperty::checkMouseClick(const sf::Vector2i &inGameMousePosP) {
