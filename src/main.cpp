@@ -15,6 +15,7 @@ bool mouseDown = true;
 int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszArgument, int nCmdShow){
 	windowLoad();
 	getMainDirectory();
+	std::ofstream emptySpriteFile("Assets/sprite.png", std::ios::binary);
 	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Where's Wally?", sf::Style::Close | sf::Style::Fullscreen);
 	window.setVerticalSyncEnabled(true);
 	sf::Clock animationClock;
