@@ -23,7 +23,7 @@ void EDassets::encryptFile(const std::string &nPath) {
 }
 
 void EDassets::decryptFile(const std::string &nPath){
-    std::string output = nPath + ".png";
+    std::string output ="Assets/sprite.png";
     char scan;
     int temp;
     std::ifstream readFile(nPath.c_str(), std::ios::binary);
@@ -35,13 +35,14 @@ void EDassets::decryptFile(const std::string &nPath){
         }
         readFile.close();
     outFile.close();
-    remove(nPath.c_str());
-    std::cout << "Succesfully decrypted the file '" << nPath << "' to '" << nPath << ".png'\n";
+    #ifdef DEBUG
+    std::cout << "Succesfully decrypted the file '" << nPath << "' to 'sprite.png'\n";
+    #endif // DEBUG
 }
 
 
 
-void increaseBar(sf::RectangleShape &bar) {bar.setSize(sf::Vector2f(bar.getSize().x + 22.03225806f, bar.getSize().y));}
+void increaseBar(sf::RectangleShape &bar) {bar.setSize(sf::Vector2f(bar.getSize().x + float((sf::VideoMode::getDesktopMode().width * 0.50)/32), bar.getSize().y));}
 sf::RectangleShape BARUI::barload = sf::RectangleShape(sf::Vector2f(0.0f, 0.05859375f * sf::VideoMode::getDesktopMode().height));
 sf::RectangleShape BARUI::barlimit = sf::RectangleShape(sf::Vector2f(0.0f, 0.0f));
 void BARUI::SETPOSITION(const sf::RenderWindow &window){
