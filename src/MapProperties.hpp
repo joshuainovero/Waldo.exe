@@ -20,7 +20,7 @@ public:
 	GameTimer gametimer;
 	bool waldoFound = false;
 	bool gameOver = false;
-	MapProperty(std::string fileName, std::string key, const int mapTimerCounts[2]);
+	MapProperty(const std::string &fileName, const std::string &key, const int mapTimerCounts[2]);
 	bool checkMouseClick(const sf::Vector2i &inGameMousePosP);
 	void resetMapState();
 	sf::Sprite returnSprite() { return sprite; }
