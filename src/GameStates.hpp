@@ -1,9 +1,11 @@
 #pragma once
 
 bool MenuActive = true;
+bool MapSelectActive = false;
 bool InGameActive = false;
 
 MapProperty* CurrentMap;
+int currentMapIndex;
 
 bool appInFocus(sf::RenderWindow* app){
     if(app == NULL)
@@ -36,6 +38,22 @@ void SetMapProperty() {
 	InGameActive = true;
 	GameClockStruct::ClockRunning = true;
 
+}
+
+void gotoChosenMap(const int &mapIndex){
+	switch (mapIndex){
+		case 0: CurrentMap = MAP1; break;
+		case 1: CurrentMap = MAP2; break;
+		case 2: CurrentMap = MAP3; break;
+		case 3: CurrentMap = MAP4; break;
+		case 4: CurrentMap = MAP5; break;
+		case 5: CurrentMap = MAP6; break;
+	}
+	Intromusic->music.stop();
+	MenuActive = false;
+	MapSelectActive = false;
+	InGameActive = true;
+	GameClockStruct::ClockRunning = true;
 }
 
 void gameEvents(sf::RenderWindow *currentWindow){
