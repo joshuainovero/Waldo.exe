@@ -1,4 +1,4 @@
-#include "Typewriter.hpp"
+#include "TypeWriter.hpp"
 #include <iostream>
 TypeWriter::TypeWriter(std::string textContent, float switchTime, float posX, float posY, uint32_t sizeChar){
     sf::Vector2f twScreenResolution(sf::Vector2f(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height));
