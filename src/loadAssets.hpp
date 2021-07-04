@@ -150,6 +150,27 @@ struct MENULOGO : public SpriteLoader {
 		}
 };
 
+struct MAPOPTIONS : public SpriteLoader {
+	virtual void SetSpriteScale() override {
+		sprite.setScale(sf::Vector2f(scaleresol.getFullScreenSpriteScale(), scaleresol.getFullScreenSpriteScale()));
+	}
+	MAPOPTIONS(const std::string &pathA)
+		:SpriteLoader(pathA){
+			SetSpriteScale();
+		}
+};
+
+struct UKMAP : public SpriteLoader {
+	std::array<std::array<float,2>, 6> ukscales {{{0.2510416667, 0.1962962963},{0.5463541667, 0.1962962963}, {0.2510416667, 0.437037037}, {0.5463541667, 0.437037037}, {0.2510416667, 0.6787037037}, {0.5463541667, 0.6787037037}}};
+	virtual void SetSpriteScale() override {
+		sprite.setScale(sf::Vector2f(scaleresol.getFullScreenSpriteScale(), scaleresol.getFullScreenSpriteScale()));
+	}
+	UKMAP(const std::string &pathA)
+		:SpriteLoader(pathA){
+			SetSpriteScale();
+		}
+};
+
 struct SOUNDEFFECT {
 	sf::SoundBuffer buffer;
 	sf::Sound sound;
@@ -173,13 +194,17 @@ HANDCURSOR *HandCursorObj;
 CIRCLECURSOR *CircleCursorObj;
 EXITICON *ExitIconObj;
 MENULOGO *MenuLogoObj;
+MENULOGO *OpeningObj;
 PAUSESCREEN *PauseScreenObj;
 GAMEEND *WaldoFoundObj;
 GAMEEND *GameOverObj;
+MAPOPTIONS *MapOptionsObj;
+UKMAP *UkMapObj;
 
 GAMEMUSIC *Intromusic;
 SOUNDEFFECT *WrongClickEffect;
 SOUNDEFFECT *WallyFoundEffect;
+SOUNDEFFECT *MenuSelectionEffect;
 
 MapProperty *MAP1;
 MapProperty *MAP2;
@@ -188,6 +213,13 @@ MapProperty *MAP4;
 MapProperty *MAP5;
 MapProperty *MAP6;
 
+const std::array<std::string, 3> openingDialogues{
+	"Hello there, gamer! My name is Waldo, and I'm from\nthe Land of Waldos, a land populated by Waldos just\nlike me. You've probably come across me in one of your\nbooks where I'm hidden in various pages",
+	"You had a hard time finding me before, didn't you?\nAnyways, I am always ready for an adventure with my\nwalking stick in hand, and my trusty dog Woof by my\nside. I've gotten a little more sophisticated, and I'm\nnow lurking and hidden behind your computer screen.",
+	"The rule is straightforward gamer. All you have to do is\nto find me on each map of the game. Simple isn't it? Be\nsure to find me before the clock runs out or else there\nwill be consequences. Best of luck gamer!"
+};
+
+TypeWriter openingWriter("", 0.02, 360.0f, 305.0f, 25);
 static bool done = false;
 
 void loadAssets(){
@@ -196,13 +228,17 @@ void loadAssets(){
 	CircleCursorObj = new CIRCLECURSOR("Assets/001/001-rcs");
 	ExitIconObj = new EXITICON("Assets/002/002-ex");
 	MenuLogoObj = new MENULOGO("Assets/004/004-mui");
+	OpeningObj = new MENULOGO("Assets/004/004-opg");
 	PauseScreenObj = new PAUSESCREEN("Assets/004/004-pse");
 	WaldoFoundObj = new GAMEEND("Assets/004/004-fnd");
 	GameOverObj = new GAMEEND("Assets/004/004-go");
+	MapOptionsObj = new MAPOPTIONS("Assets/004/004-mo");
+	UkMapObj = new UKMAP("Assets/004/004-uk");
 
 	Intromusic = new GAMEMUSIC("Assets/Audio/music/MenuMusic.wav");
 	WrongClickEffect = new SOUNDEFFECT("Assets/Audio/SoundEffects/WrongClick.wav");
 	WallyFoundEffect = new SOUNDEFFECT("Assets/Audio/SoundEffects/WallyFound.wav");
+	MenuSelectionEffect = new SOUNDEFFECT("Assets/Audio/SoundEffects/MenuSelection.wav");
 
 	MAP1 = new MapProperty("Assets/003/003-m1", "Map1", GameTimer::m1TimeCounts);
 	MAP2 = new MapProperty("Assets/003/003-m2", "Map2", GameTimer::m2TimeCounts);
