@@ -2,9 +2,13 @@
 Build/
 psd/
 src/test/
+Assets/maps
+Assets/uk
 
 # spec files
 tempCodeRunnerFile.hpp
 encrypt.cpp
 Assets/Codes.txt
 makefilebackup.txt
+script.txt
+*.exe
