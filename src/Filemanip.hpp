@@ -57,6 +57,26 @@ void updateCurrentMapOrder() {
 
 }
 
+void updateMapStatus(){
+    Json::Value data = getDataJson();
+    int jsonCMOrder = data["gameplay-status"]["currentmaporder"].asInt();
+    data["gameplay-status"]["inGameMaps"][jsonCMOrder]["mapStatus"] = true;
+    std::ofstream fileDataJson("Data/data.json");
+    Json::StyledWriter styledwriter;
+    fileDataJson << styledwriter.write(data);
+    fileDataJson.close();
+    
+}
+
+void eliminateNewGame(){
+    Json::Value data = getDataJson();
+    data["app-properties"]["newgame"] = false;
+    std::ofstream fileDataJson("Data/data.json");
+    Json::StyledWriter styledwriter;
+    fileDataJson << styledwriter.write(data);
+    fileDataJson.close();
+}
+
 void getMainDirectory(){
     char tmp[256];
     getcwd(tmp, 256);
