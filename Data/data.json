@@ -1,10 +1,37 @@
 {
    "app-properties" : {
-      "localversion" : "v0.3",
-      "main-directory" : "c:\\Users\\Admin\\Desktop\\CPPgitrepos\\Waldo.exe",
+      "localversion" : "v1.0.1",
+      "main-directory" : "C:\\Users\\Admin\\Desktop\\repos\\Waldo.exe",
+      "newgame" : true,
       "update-link" : "https://joshuainovero.github.io/versions/versions.json"
    },
    "gameplay-status" : {
-      "currentmaporder" : 0
+      "currentmaporder" : 0,
+      "inGameMaps" : [
+         {
+            "mapStatus" : true,
+            "name" : "Map1"
+         },
+         {
+            "mapStatus" : false,
+            "name" : "Map2"
+         },
+         {
+            "mapStatus" : false,
+            "name" : "Map3"
+         },
+         {
+            "mapStatus" : false,
+            "name" : "Map4"
+         },
+         {
+            "mapStatus" : false,
+            "name" : "Map5"
+         },
+         {
+            "mapStatus" : false,
+            "name" : "Map6"
+         }
+      ]
    }
 }
