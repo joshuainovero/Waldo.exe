@@ -15,6 +15,7 @@ void InGame(sf::RenderWindow *inGameWindow) {
 			inGameWindow->draw(HandCursorObj->sprite);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 				if (!mouseDown){
+					MenuSelectionEffect->sound.play();
 					gamePause = false;
 					mouseDown = true;
 				}
@@ -25,6 +26,7 @@ void InGame(sf::RenderWindow *inGameWindow) {
 			HandCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
 			inGameWindow->draw(HandCursorObj->sprite);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+				MenuSelectionEffect->sound.play();
 				inGameWindow->setMouseCursorVisible(true);
 				if (MessageBoxA(NULL,"Are you sure you want to go to the main menu?", "Waldo", MB_YESNO) == IDYES){
 					CurrentMap->gametimer.stopTimer();
@@ -59,10 +61,17 @@ void InGame(sf::RenderWindow *inGameWindow) {
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 					if (!mouseDown){
 						GameClockStruct::gameClockTimer.restart();
-						TimerLabel::moveTextMinutes = false;
 						CurrentMap->resetMapState();
-						updateCurrentMapOrder();
-						SetMapProperty();
+						TimerLabel::moveTextMinutes = false;
+						if (currentMapIndex < getDataJson()["gameplay-status"]["currentmaporder"].asInt()){
+							currentMapIndex += 1;
+							gotoChosenMap(currentMapIndex);
+						} else {
+							updateCurrentMapOrder();
+							currentMapIndex = getDataJson()["gameplay-status"]["currentmaporder"].asInt();
+							updateMapStatus();
+							SetMapProperty();
+						}
 						mouseDown = true;
 					}
 				} else
