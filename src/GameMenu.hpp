@@ -4,6 +4,9 @@ ButtonLabel* startButton;
 ButtonLabel* startButtonBorder;
 ButtonLabel* startButtonShadow;
 
+static bool stateOpening = false;
+static size_t currentDialogueIndex = 0;
+
 struct initMenuButtons {
 	int screenResol = sf::VideoMode::getDesktopMode().height;
 	const float maxWidth = 1920;
@@ -52,46 +55,87 @@ void GameMenu(sf::RenderWindow* menuWindow) {
 	}
 	menuWindow->setMouseCursorVisible(false);
 
-	menuWindow->draw(MenuLogoObj->sprite);
-	menuWindow->draw(*startButtonShadow->getButton());
-	menuWindow->draw(*startButtonBorder->getButton());
-	menuWindow->draw(*startButton->getButton());
-	menuWindow->draw(*startButton->getText());
+	if (!stateOpening){
+		menuWindow->draw(MenuLogoObj->sprite);
+		menuWindow->draw(*startButtonShadow->getButton());
+		menuWindow->draw(*startButtonBorder->getButton());
+		menuWindow->draw(*startButton->getButton());
+		menuWindow->draw(*startButton->getText());
 
-	menuWindow->draw(ExitIconObj->sprite);
+		menuWindow->draw(ExitIconObj->sprite);
 
-	if (appInFocus(menuWindow)){
-		menuMousePos = sf::Mouse::getPosition(*menuWindow);
-		if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
-			(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
-			HandCursorObj->sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
-			menuWindow->draw(HandCursorObj->sprite);
-		}
-		else if ((menuMousePos.x >= ExitIconObj->clickableX[0] && menuMousePos.x <= ExitIconObj->clickableX[1]) &&
-			(menuMousePos.y >= ExitIconObj->clickableY[0] && menuMousePos.y <= ExitIconObj->clickableY[1])) {
-			HandCursorObj->sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
-			menuWindow->draw(HandCursorObj->sprite);
+
+		if (appInFocus(menuWindow)){
+			menuMousePos = sf::Mouse::getPosition(*menuWindow);
+			if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
+				(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
+				HandCursorObj->sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
+				menuWindow->draw(HandCursorObj->sprite);
 			}
-		else {
+			else if ((menuMousePos.x >= ExitIconObj->clickableX[0] && menuMousePos.x <= ExitIconObj->clickableX[1]) &&
+				(menuMousePos.y >= ExitIconObj->clickableY[0] && menuMousePos.y <= ExitIconObj->clickableY[1])) {
+				HandCursorObj->sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
+				menuWindow->draw(HandCursorObj->sprite);
+				}
+			else {
+				ArrowCursorObj->sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
+				menuWindow->draw(ArrowCursorObj->sprite);
+			}
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+				if (!mouseDown){
+					if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
+						(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
+						//SetMapProperty();
+						if (getDataJson()["app-properties"]["newgame"].asBool() == true){
+							stateOpening = true;
+							openingWriter.tcSetString(openingDialogues[currentDialogueIndex]);
+						} else {
+							MenuSelectionEffect->sound.play();
+							MenuActive = false;
+							MapSelectActive = true;
+						}
+					}
+					else if ((menuMousePos.x >= ExitIconObj->clickableX[0] && menuMousePos.x <= ExitIconObj->clickableX[1]) &&
+							(menuMousePos.y >= ExitIconObj->clickableY[0] && menuMousePos.y <= ExitIconObj->clickableY[1])) {
+							MenuSelectionEffect->sound.play();
+							menuWindow->setMouseCursorVisible(true);
+						if (MessageBoxA(NULL,"Are you sure you want to exit?", "Waldo", MB_YESNO) == IDYES)
+								menuWindow->close();					
+					}
+					mouseDown = true;
+				}
+			} else
+				mouseDown = false;
+		}
+	} else {
+		menuWindow->draw(OpeningObj->sprite);
+		openingWriter.drawTypeWriter(menuWindow);
+		openingWriter.updateText(deltaTime);
+		if(appInFocus(menuWindow)){
+			menuMousePos = sf::Mouse::getPosition(*menuWindow);
 			ArrowCursorObj->sprite.setPosition(static_cast<float>(menuMousePos.x), static_cast<float>(menuMousePos.y));
 			menuWindow->draw(ArrowCursorObj->sprite);
+
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && openingWriter.typeWriterStr.length() >= openingWriter.textContent.length()){
+				if (!mouseDown){
+					if (currentDialogueIndex < openingDialogues.size() - 1){
+						currentDialogueIndex += 1;
+						openingWriter.resetTypeWriter();
+						openingWriter.tcSetString(openingDialogues[currentDialogueIndex]);
+					} else {
+						MenuSelectionEffect->sound.play();
+						MenuActive = false;
+						MapSelectActive = true;
+						stateOpening = false;
+						currentDialogueIndex = 0;
+						openingWriter.resetTypeWriter();
+						openingWriter.tcSetString(openingDialogues[currentDialogueIndex]);
+						eliminateNewGame();
+					}
+					mouseDown = true;
+				}
+			} else mouseDown = false;
 		}
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			if (!mouseDown){
-				if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
-					(menuMousePos.y >= startButton->clickableY[0] && menuMousePos.y <= startButton->clickableY[1])) {
-					SetMapProperty();
-				}
-				else if ((menuMousePos.x >= ExitIconObj->clickableX[0] && menuMousePos.x <= ExitIconObj->clickableX[1]) &&
-						(menuMousePos.y >= ExitIconObj->clickableY[0] && menuMousePos.y <= ExitIconObj->clickableY[1])) {
-						menuWindow->setMouseCursorVisible(true);
-					if (MessageBoxA(NULL,"Are you sure you want to exit?", "Waldo", MB_YESNO) == IDYES)
-							menuWindow->close();					
-				}
-				mouseDown = true;
-			}
-		} else
-			mouseDown = false;
 	}
 
 }
