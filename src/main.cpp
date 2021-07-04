@@ -24,10 +24,11 @@ int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance,LPSTR lpszAr
 			GameClockStruct::gameClockTimer.restart();
 		deltaTime = animationClock.restart().asSeconds();
 		window.clear();
-		if (MenuActive && !InGameActive) 
+		if (MenuActive && !InGameActive && !MapSelectActive) 
 			GameMenu(&window);
-
-		else if (InGameActive && !MenuActive) 
+		else if (MapSelectActive && !MenuActive && !InGameActive)
+			MapSelection(&window);
+		else if (InGameActive && !MenuActive && !MapSelectActive) 
 			InGame(&window);
 		
 		gameEvents(&window);
