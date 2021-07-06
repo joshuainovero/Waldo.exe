@@ -1,169 +1,169 @@
 #pragma once
 
-sf::Vector2i inGameMousePos;
-static bool gamePause = false;
-static bool keyDown = false;
+class INGAME : public State{
+private:
+	sf::Vector2i inGameMousePos;
+	bool gamePause = false;
+	bool keyDown = false;
+public:
+	INGAME() {/*states.push_back(this);*/}
+	virtual void run(sf::RenderWindow *window, const float &dtArg) override{
+		window->setMouseCursorVisible(false);
+		if (gamePause) {
+			inGameMousePos = sf::Mouse::getPosition(*window);
+			window->draw(PauseScreenObj->sprite);
 
-void InGame(sf::RenderWindow *inGameWindow) {
-	inGameWindow->setMouseCursorVisible(false);
-	if (gamePause) {
-		inGameMousePos = sf::Mouse::getPosition(*inGameWindow);
-		inGameWindow->draw(PauseScreenObj->sprite);
-
-		if (PauseScreenObj->resumeInRange(inGameMousePos)){
-			HandCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-			inGameWindow->draw(HandCursorObj->sprite);
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-				if (!mouseDown){
+			if (PauseScreenObj->resumeInRange(inGameMousePos)){
+				HandCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+				window->draw(HandCursorObj->sprite);
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+					if (!Engine::mouseDown){
+						MenuSelectionEffect->sound.play();
+						gamePause = false;
+						Engine::mouseDown = true;
+					}
+				} else
+					Engine::mouseDown = false;
+			}
+			else if (PauseScreenObj->quitInRange(inGameMousePos)){
+				HandCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+				window->draw(HandCursorObj->sprite);
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 					MenuSelectionEffect->sound.play();
-					gamePause = false;
-					mouseDown = true;
-				}
-			} else
-				mouseDown = false;
-		}
-		else if (PauseScreenObj->quitInRange(inGameMousePos)){
-			HandCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-			inGameWindow->draw(HandCursorObj->sprite);
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-				MenuSelectionEffect->sound.play();
-				inGameWindow->setMouseCursorVisible(true);
-				if (MessageBoxA(NULL,"Are you sure you want to go to the main menu?", "Waldo", MB_YESNO) == IDYES){
-					CurrentMap->gametimer.stopTimer();
-				 	CurrentMap->resetMapState();
-			 		TimerLabel::moveTextMinutes = false;
-			 		MenuActive = true;
-			 		InGameActive = false;
-					gamePause = false;
-				}
-			}
-		} else {
-			ArrowCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-			inGameWindow->draw(ArrowCursorObj->sprite);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
-			if (!keyDown){
-				gamePause = false;
-				keyDown = true;
-			}
-			
-		}  else keyDown = false;
-		GameClockStruct::gameClockTimer.restart();
-	} else {
-		if (CurrentMap->waldoFound){
-			inGameMousePos = sf::Mouse::getPosition(*inGameWindow);
-			inGameWindow->draw(CurrentMap->returnSprite());
-			CurrentMap->gametimer.drawTimer(inGameWindow);
-			inGameWindow->draw(WaldoFoundObj->sprite);
-			if (WaldoFoundObj->continueInRange(inGameMousePos)){
-				HandCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-				inGameWindow->draw(HandCursorObj->sprite);
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-					if (!mouseDown){
-						GameClockStruct::gameClockTimer.restart();
+					window->setMouseCursorVisible(true);
+					if (MessageBoxA(NULL,"Are you sure you want to go to the main menu?", "Waldo", MB_YESNO) == IDYES){
+						CurrentMap->gametimer.stopTimer();
 						CurrentMap->resetMapState();
 						TimerLabel::moveTextMinutes = false;
-						if (currentMapIndex < getDataJson()["gameplay-status"]["currentmaporder"].asInt()){
-							currentMapIndex += 1;
-							gotoChosenMap(currentMapIndex);
-						} else {
-							updateCurrentMapOrder();
-							currentMapIndex = getDataJson()["gameplay-status"]["currentmaporder"].asInt();
-							updateMapStatus();
-							SetMapProperty();
-						}
-						mouseDown = true;
+						gamePause = false;
+						currentState = states.at(0);
 					}
-				} else
-					mouseDown = false;
-			} else {
-				ArrowCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-				inGameWindow->draw(ArrowCursorObj->sprite);
-			}
-		} else if (CurrentMap->gameOver){
-			inGameMousePos = sf::Mouse::getPosition(*inGameWindow);
-			inGameWindow->draw(CurrentMap->returnSprite());
-			CurrentMap->gametimer.drawTimer(inGameWindow);
-			inGameWindow->draw(GameOverObj->sprite);
-			if (GameOverObj->continueInRange(inGameMousePos)){
-				HandCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-				inGameWindow->draw(HandCursorObj->sprite);
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-					if (!mouseDown){
-						CurrentMap->resetMapState();
-						TimerLabel::moveTextMinutes = false;
-						MenuActive = true;
-						InGameActive = false;
-						mouseDown = true;
-					}
-				} else
-					mouseDown = false;
-			} else {
-				ArrowCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
-				inGameWindow->draw(ArrowCursorObj->sprite);
-			}
-
-		} else {
-			CircleCursorObj->AnimationCircle.Update(CircleCursorObj->AnimationCircle.currentRow, deltaTime);
-			CircleCursorObj->sprite.setTextureRect(CircleCursorObj->AnimationCircle.uvRect);
-			
-			if (appInFocus(inGameWindow)){
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
-					if (!keyDown){
-						gamePause = true;
-						keyDown = true;
-					}
-				} else {
-					keyDown = false;
 				}
-				inGameMousePos = sf::Mouse::getPosition(*inGameWindow);
-				CircleCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+			} else {
+				ArrowCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+				window->draw(ArrowCursorObj->sprite);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
+				if (!keyDown){
+					gamePause = false;
+					keyDown = true;
+				}
 				
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) { // If wally is found
-					if (!mouseDown){
-						if (CurrentMap->checkMouseClick(inGameMousePos)) {
-							WallyFoundEffect->sound.play();
-							CurrentMap->waldoFound = true;
-							if (GameClockStruct::ClockRunning) {
-								GameClockStruct::ClockRunning = false;
+			}  else keyDown = false;
+			GameClockStruct::gameClockTimer.restart();
+		} else {
+			if (CurrentMap->waldoFound){
+				inGameMousePos = sf::Mouse::getPosition(*window);
+				window->draw(CurrentMap->returnSprite());
+				CurrentMap->gametimer.drawTimer(window);
+				window->draw(WaldoFoundObj->sprite);
+				if (WaldoFoundObj->continueInRange(inGameMousePos)){
+					HandCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+					window->draw(HandCursorObj->sprite);
+					if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+						if (!Engine::mouseDown){
+							GameClockStruct::gameClockTimer.restart();
+							CurrentMap->resetMapState();
+							TimerLabel::moveTextMinutes = false;
+							if (currentMapIndex < getDataJson()["gameplay-status"]["currentmaporder"].asInt()){
+								currentMapIndex += 1;
+								gotoChosenMap(currentMapIndex);
+							} else {
+								updateCurrentMapOrder();
+								currentMapIndex = getDataJson()["gameplay-status"]["currentmaporder"].asInt();
+								updateMapStatus();
+								SetMapProperty();
 							}
+							Engine::mouseDown = true;
 						}
-						else WrongClickEffect->sound.play();
-						mouseDown = true;
+					} else
+						Engine::mouseDown = false;
+				} else {
+					ArrowCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+					window->draw(ArrowCursorObj->sprite);
+				}
+			} else if (CurrentMap->gameOver){
+				inGameMousePos = sf::Mouse::getPosition(*window);
+				window->draw(CurrentMap->returnSprite());
+				CurrentMap->gametimer.drawTimer(window);
+				window->draw(GameOverObj->sprite);
+				if (GameOverObj->continueInRange(inGameMousePos)){
+					HandCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+					window->draw(HandCursorObj->sprite);
+					if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+						if (!Engine::mouseDown){
+							CurrentMap->resetMapState();
+							TimerLabel::moveTextMinutes = false;
+							Engine::mouseDown = true;
+							currentState = states.at(0);
+						}
+					} else
+						Engine::mouseDown = false;
+				} else {
+					ArrowCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+					window->draw(ArrowCursorObj->sprite);
+				}
+
+			} else {
+				CircleCursorObj->AnimationCircle.Update(CircleCursorObj->AnimationCircle.currentRow, dtArg);
+				CircleCursorObj->sprite.setTextureRect(CircleCursorObj->AnimationCircle.uvRect);
+				
+				if (appInFocus(window)){
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
+						if (!keyDown){
+							gamePause = true;
+							keyDown = true;
+						}
+					} else {
+						keyDown = false;
 					}
-				} else
-					mouseDown = false;		
+					inGameMousePos = sf::Mouse::getPosition(*window);
+					CircleCursorObj->sprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
+					
+					if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) { // If wally is found
+						if (!Engine::mouseDown){
+							if (CurrentMap->checkMouseClick(inGameMousePos)) {
+								WallyFoundEffect->sound.play();
+								CurrentMap->waldoFound = true;
+								if (GameClockStruct::ClockRunning) {
+									GameClockStruct::ClockRunning = false;
+								}
+							}
+							else WrongClickEffect->sound.play();
+							Engine::mouseDown = true;
+						}
+					} else
+						Engine::mouseDown = false;		
+				}
+				if (CurrentMap->gametimer.seconds == -1 && CurrentMap->gametimer.minutes == 0){
+					CurrentMap->gametimer.stopTimer();
+					CurrentMap->gameOver = true;
+				}
+				
+				if (GameClockStruct::ClockRunning)
+					CurrentMap->gametimer.UpdateTimer();
+
+				window->draw(CurrentMap->returnSprite());
+				window->draw(CircleCursorObj->sprite);
+				CurrentMap->gametimer.drawTimer(window);
+
+
+				// if (CurrentMap->gameOver) {
+				// 	CurrentMap->resetMapState();
+				// 	TimerLabel::moveTextMinutes = false;
+				// 	MenuActive = true;
+				// 	InGameActive = false;
+
+				// }
+
+				// if (CurrentMap->waldoFound) {
+				// 	GameClockStruct::gameClockTimer.restart();
+				// 	TimerLabel::moveTextMinutes = false;
+				// 	CurrentMap->resetMapState();
+				// 	updateCurrentMapOrder();
+				// 	SetMapProperty();
+				// }
 			}
-			if (CurrentMap->gametimer.seconds == -1 && CurrentMap->gametimer.minutes == 0){
-				CurrentMap->gametimer.stopTimer();
-				CurrentMap->gameOver = true;
-			}
-			
-			if (GameClockStruct::ClockRunning)
-				CurrentMap->gametimer.UpdateTimer();
-
-			inGameWindow->draw(CurrentMap->returnSprite());
-			inGameWindow->draw(CircleCursorObj->sprite);
-			CurrentMap->gametimer.drawTimer(inGameWindow);
-
-
-			// if (CurrentMap->gameOver) {
-			// 	CurrentMap->resetMapState();
-			// 	TimerLabel::moveTextMinutes = false;
-			// 	MenuActive = true;
-			// 	InGameActive = false;
-
-			// }
-
-			// if (CurrentMap->waldoFound) {
-			// 	GameClockStruct::gameClockTimer.restart();
-			// 	TimerLabel::moveTextMinutes = false;
-			// 	CurrentMap->resetMapState();
-			// 	updateCurrentMapOrder();
-			// 	SetMapProperty();
-			// }
-		}
+		}		
 	}
-
-
-}
+};
