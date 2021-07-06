@@ -3,9 +3,9 @@
 CC := g++
 CFLAGS := -Wall
 
-OBJS := main.o EDassets.o MapProperties.o GameTimer.o StaticObjAnimation.o Typewriter.o json_reader.o json_value.o json_writer.o
-DOBJS := main.do EDassets.do MapProperties.do GameTimer.do StaticObjAnimation.do Typewriter.do json_reader.do json_value.do json_writer.do
-ROBJS := main.ro EDassets.ro MapProperties.ro GameTimer.ro StaticObjAnimation.ro Typewriter.ro json_reader.ro json_value.ro json_writer.ro
+OBJS := main.o EDassets.o MapProperties.o GameTimer.o StaticObjAnimation.o State.o Engine.o Typewriter.o json_reader.o json_value.o json_writer.o
+DOBJS := main.do EDassets.do MapProperties.do GameTimer.do StaticObjAnimation.do State.do Engine.do Typewriter.do json_reader.do json_value.do json_writer.do
+ROBJS := main.ro EDassets.ro MapProperties.ro GameTimer.ro StaticObjAnimation.ro State.ro Engine.ro Typewriter.ro json_reader.ro json_value.ro json_writer.ro
 CSRC := src
 JSRC := src/jsonparser
 I-SF-SRC := SFML/include
@@ -35,6 +35,12 @@ EDassets.do: $(CSRC)/EDassets.cpp
 	$(CC) $(CFLAGS) -D DEBUG $(INCLUDES) -c $<
 
 StaticObjAnimation.do: $(CSRC)/StaticObjAnimation.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) -c $<
+
+State.do: $(CSRC)/State.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) -c $<
+
+Engine.do: $(CSRC)/Engine.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<
 
 Typewriter.do: $(CSRC)/TypeWriter.cpp
@@ -69,6 +75,12 @@ EDassets.ro: $(CSRC)/EDassets.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<
 
 StaticObjAnimation.ro: $(CSRC)/StaticObjAnimation.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) -c $<
+
+State.ro: $(CSRC)/State.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) -c $<
+
+Engine.ro: $(CSRC)/Engine.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<
 
 Typewriter.ro: $(CSRC)/Typewriter.cpp
