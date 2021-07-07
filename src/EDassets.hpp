@@ -1,7 +1,4 @@
 #pragma once
-#include <fstream>
-#include <string>
-#include <iostream>
 #include <SFML/Graphics.hpp>
 
 struct EDassets{

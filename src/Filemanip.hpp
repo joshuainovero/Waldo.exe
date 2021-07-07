@@ -2,11 +2,7 @@
 #include <json/json.h>
 #include <fstream>
 #include <unistd.h>
-#include <process.h>
 #include <Tlhelp32.h>
-#include <winbase.h>
-#include <stdio.h>
-
 
 void endProcessID(const char *filename) //Kill a process
 {

@@ -1,5 +1,5 @@
 #include "StaticObjAnimation.hpp"
-#include <iostream>
+
 static bool shrink = true;
 StaticObjAnimation::StaticObjAnimation(sf::Texture *texture, sf::Vector2u imageCount, float switchTime){
     this->imageCount = imageCount;

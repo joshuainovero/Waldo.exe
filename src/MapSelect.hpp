@@ -5,16 +5,24 @@ private:
     sf::Vector2i MapSelectMousePos;
     sf::Vector2f mapSelectResol;
 public:
-    MAPSELECT(){
-        mapSelectResol.x = sf::VideoMode::getDesktopMode().width;
-        mapSelectResol.y = sf::VideoMode::getDesktopMode().height;
-    }
-    bool isMapHover(const int &jsonMapIndex, size_t ith){
+    MAPSELECT();
+    bool isMapHover(const int &jsonMapIndex, size_t ith);
+    virtual void run(sf::RenderWindow *window, const float &dtArg) override;
+};
+
+MAPSELECT::MAPSELECT(){
+    mapSelectResol.x = sf::VideoMode::getDesktopMode().width;
+    mapSelectResol.y = sf::VideoMode::getDesktopMode().height;
+}
+
+bool MAPSELECT::isMapHover(const int &jsonMapIndex, size_t ith){
     return ((MapSelectMousePos.x >= mapSelectResol.x*UkMapObj->ukscales[ith][0] && MapSelectMousePos.x <= (mapSelectResol.x * UkMapObj->ukscales[ith][0]) + mapSelectResol.x * 401/1920) &&
         (MapSelectMousePos.y >= mapSelectResol.y*UkMapObj->ukscales[ith][1] && MapSelectMousePos.y <= (mapSelectResol.y * UkMapObj->ukscales[ith][1]) + mapSelectResol.y * 223/1080))
         && getDataJson()["gameplay-status"]["inGameMaps"][jsonMapIndex]["mapStatus"].asBool();
 }
-    virtual void run(sf::RenderWindow *window, const float &dtArg) override {
+
+
+void MAPSELECT::run(sf::RenderWindow *window, const float &dtArg){
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
         currentState = states.at(0);
     }
@@ -72,5 +80,4 @@ public:
         } else
             Engine::mouseDown = false;
     }   
-    }
-};
+}

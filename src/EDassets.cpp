@@ -1,4 +1,10 @@
 #include "EDassets.hpp"
+#include <fstream>
+#include <string>
+
+#ifdef DEBUG
+#include <iostream>
+#endif // DEBUG
 
 void EDassets::encryptFile(const std::string &nPath) {
     std::string nPathFormatted = "";
@@ -19,7 +25,9 @@ void EDassets::encryptFile(const std::string &nPath) {
     outFile.close();
     remove(nPath.c_str());
     nPathFormatted.pop_back();
+    #ifdef DEBUG
     std::cout << "Succesfully encrypted the file '" << nPath << "' to '" << nPathFormatted << "'\n";
+    #endif // DEBUG
 }
 
 void EDassets::decryptFile(const std::string &nPath){

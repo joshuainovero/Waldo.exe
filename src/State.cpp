@@ -1,5 +1,4 @@
 #include "State.hpp"
-#include <iostream>
 #include <Windows.h>
 std::vector<State*> State::states;
 State *State::currentState;
