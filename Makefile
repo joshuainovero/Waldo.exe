@@ -41,7 +41,7 @@ State.do: $(CSRC)/State.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<
 
 Engine.do: $(CSRC)/Engine.cpp
-	$(CC) $(CFLAGS) $(INCLUDES) -c $<
+	$(CC) $(CFLAGS) -D DEBUG $(INCLUDES) -c $<
 
 Typewriter.do: $(CSRC)/TypeWriter.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<
