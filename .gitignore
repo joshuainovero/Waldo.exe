@@ -2,10 +2,13 @@
 Build/
 psd/
 src/test/
+src/script/
+src/backup/
 Assets/maps
 Assets/uk
 
 # spec files
+Assets/spritetest.png
 tempCodeRunnerFile.hpp
 encrypt.cpp
 Assets/Codes.txt
