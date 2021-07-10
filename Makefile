@@ -3,8 +3,8 @@
 CC := g++
 CFLAGS := -Wall
 
-OBJS := main.o EDassets.o MapProperties.o GameTimer.o StaticObjAnimation.o State.o Engine.o Typewriter.o json_reader.o json_value.o json_writer.o
-DOBJS := main.do EDassets.do MapProperties.do GameTimer.do StaticObjAnimation.do State.do Engine.do Typewriter.do json_reader.do json_value.do json_writer.do
+OBJS := main.o EDassets.o MapProperties.o GameTimer.o StaticObjAnimation.o State.o Engine.o InGame.o MapSelect.o GameMenu.o Labels.o Typewriter.o TimerLabel.o json_reader.o json_value.o json_writer.o
+DOBJS := main.do EDassets.do MapProperties.do GameTimer.do StaticObjAnimation.do State.do Engine.do InGame.do MapSelect.do GameMenu.do Labels.do Typewriter.do TimerLabel.do json_reader.do json_value.do json_writer.do
 ROBJS := main.ro EDassets.ro MapProperties.ro GameTimer.ro StaticObjAnimation.ro State.ro Engine.ro Typewriter.ro json_reader.ro json_value.ro json_writer.ro
 CSRC := src
 JSRC := src/jsonparser
@@ -29,7 +29,7 @@ $(TARGETD): $(DOBJS)
 	$(PLINKDEBUG) && $(CC) $(CFLAGS) $(OBJS) $(DEPENDDEBUG) $(ICONSRC) -o $(OPATH)/$@
 
 main.do: $(CSRC)/main.cpp
-	$(CC) $(CFLAGS) $(INCLUDES) -c $<
+	$(CC) $(CFLAGS) -D DEBUG $(INCLUDES) -c $<
 
 EDassets.do: $(CSRC)/EDassets.cpp
 	$(CC) $(CFLAGS) -D DEBUG $(INCLUDES) -c $<
@@ -38,12 +38,27 @@ StaticObjAnimation.do: $(CSRC)/StaticObjAnimation.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<
 
 State.do: $(CSRC)/State.cpp
-	$(CC) $(CFLAGS) $(INCLUDES) -c $<
+	$(CC) $(CFLAGS) -D DEBUG $(INCLUDES) -c $<
 
 Engine.do: $(CSRC)/Engine.cpp
 	$(CC) $(CFLAGS) -D DEBUG $(INCLUDES) -c $<
 
+InGame.do: $(CSRC)/InGame.cpp
+	$(CC) $(CFLAGS) -D DEBUG $(INCLUDES) -c $<
+
+MapSelect.do: $(CSRC)/MapSelect.cpp
+	$(CC) $(CFLAGS) -D DEBUG $(INCLUDES) -c $<
+
+GameMenu.do: $(CSRC)/GameMenu.cpp
+	$(CC) $(CFLAGS) -D DEBUG $(INCLUDES) -c $<
+
+Labels.do: $(CSRC)/Labels.cpp
+	$(CC) $(CFLAGS) -D DEBUG $(INCLUDES) -c $<
+
 Typewriter.do: $(CSRC)/TypeWriter.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) -c $<
+
+TimerLabel.do: $(CSRC)/TimerLabel.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<
 
 MapProperties.do: $(CSRC)/MapProperties.cpp
