@@ -1,12 +1,18 @@
 {
    "app-properties" : {
+      "framerate-limit" : 120,
+      "github" : "https://github.com/joshuainovero/Waldo.exe",
       "localversion" : "v1.0.1",
       "main-directory" : "C:\\Users\\Admin\\Desktop\\repos\\Waldo.exe",
-      "newgame" : true,
+      "newgame" : false,
       "update-link" : "https://joshuainovero.github.io/versions/versions.json"
    },
    "gameplay-status" : {
       "currentmaporder" : 0,
+      "gotomap" : {
+         "index" : 3,
+         "triggered" : false
+      },
       "inGameMaps" : [
          {
             "mapStatus" : true,
