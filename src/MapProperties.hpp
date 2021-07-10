@@ -9,19 +9,17 @@
 #include "EDassets.hpp"
 
 class MapProperty {	
-friend struct WALDOPOSINITIALIZER;
 private:
 	std::array<int16_t, 4> waldoPosition; //Range of coordinates of wally
 	sf::Texture texture;
 	sf::Sprite sprite;
 	std::string mapOrder;
-	static sf::Vector2f currResol;
 
 public:
 	GameTimer gametimer;
 	bool waldoFound = false;
 	bool gameOver = false;
-	MapProperty(const std::string &fileName, const std::string &key, const int mapTimerCounts[2]);
+	MapProperty(const std::string &fileName, const std::string &key, const std::array<int, 2> &&mapTimerCounts);
 	bool checkMouseClick(const sf::Vector2i &inGameMousePosP);
 	void resetMapState();
 	sf::Sprite returnSprite() { return sprite; }

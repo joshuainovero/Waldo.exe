@@ -8,6 +8,7 @@ private:
     float totalTime;
     float switchTime;
     size_t currentPosition;
+    
 public:
     std::string textContent;
     std::string typeWriterStr;

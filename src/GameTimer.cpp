@@ -1,44 +1,34 @@
 #include "GameTimer.hpp"
 #include <iostream>
-sf::Clock GameClockStruct::gameClockTimer;
-bool GameClockStruct::ClockRunning = false;
-bool TimerLabel::moveTextMinutes = false;
 
-TimerLabel::TimerLabel(std::string textContent,float textPosX, float textPosY, unsigned int charSize, sf::Color color) {
-	font.loadFromFile("Assets/Fonts/Crossten-ExtraBold.ttf");
-	text.setFont(font);
-	text.setString(textContent);
-	text.setFillColor(color);
-	text.setPosition(textPosX, textPosY);
-	text.setCharacterSize(charSize);
-
-}
-
-TimerLabel timerDisplaySeconds("-", sf::VideoMode::getDesktopMode().width / 2, 40.0, 65, sf::Color::White);
-TimerLabel timerDisplayColon(":", (sf::VideoMode::getDesktopMode().width / 2) - 20, 40.0, 65, sf::Color::White);
-TimerLabel timerDisplayMinutes("-", ((sf::VideoMode::getDesktopMode().width / 2) - (65 + 20) + 35), 40.0, 65, sf::Color::White);
-
-//Shadow Properties
-TimerLabel timerShadowSeconds("-", (sf::VideoMode::getDesktopMode().width / 2) + 5, 45.0, 66, sf::Color::Black);
-TimerLabel timerShadowColon(":", (sf::VideoMode::getDesktopMode().width / 2) - 15, 45.0, 66, sf::Color::Black);
-TimerLabel timerShadowMinutes("-", ((sf::VideoMode::getDesktopMode().width / 2) - (65 + 20) + 40), 45.0, 66, sf::Color::Black);
-
-
-GameTimer::GameTimer(const int mTimerCounts[2])
-    :seconds{mTimerCounts[0]}, minutes{mTimerCounts[1]}{
+GameTimer::GameTimer(const std::array<int, 2> &mTimerCounts)
+    :seconds{mTimerCounts[0]}, minutes{mTimerCounts[1]},
+    timerDisplaySeconds("-", sf::VideoMode::getDesktopMode().width / 2, 40.0, 65, sf::Color::White),
+    timerDisplayColon(":", (sf::VideoMode::getDesktopMode().width / 2) - 20, 40.0, 65, sf::Color::White),
+    timerDisplayMinutes("-", ((sf::VideoMode::getDesktopMode().width / 2) - (65 + 20) + 35), 40.0, 65, sf::Color::White),
+    timerShadowSeconds("-", (sf::VideoMode::getDesktopMode().width / 2) + 5, 45.0, 66, sf::Color::Black),
+    timerShadowColon(":", (sf::VideoMode::getDesktopMode().width / 2) - 15, 45.0, 66, sf::Color::Black),
+    timerShadowMinutes("-", ((sf::VideoMode::getDesktopMode().width / 2) - (65 + 20) + 40), 45.0, 66, sf::Color::Black){
         timerDisplayMinutes.returnText()->setString(std::to_string(minutes));
         timerDisplaySeconds.returnText()->setString(std::to_string(seconds));
 
         timerShadowMinutes.returnText()->setString(std::to_string(minutes));
         timerShadowSeconds.returnText()->setString(std::to_string(seconds));
+
+        moveTextMinutes = false;
+        ClockRunning = false;
     }
 
+void GameTimer::getElapsedFromInGame(const sf::Time &t){
+    elapsedTimeFromInGame = t;
+}
+
 void GameTimer::startTimer() {
-    GameClockStruct::ClockRunning = true;
+    ClockRunning = true;
 }
 
 void GameTimer::stopTimer(){
-    GameClockStruct::ClockRunning = false;
+    ClockRunning = false;
 }
 
 void GameTimer::UpdateTimer(){
@@ -55,21 +45,21 @@ void GameTimer::UpdateTimer(){
         }
     }
     if (minutes > 1){
-        if (!TimerLabel::moveTextMinutes) {
+        if (!moveTextMinutes) {
             timerDisplayMinutes.returnText()->setPosition(((sf::VideoMode::getDesktopMode().width / 2) - (65 + 20) + 35) - 10, 40.0);
             timerShadowMinutes.returnText()->setPosition(((sf::VideoMode::getDesktopMode().width / 2) - (65 + 20) + 40) - 10, 45.0);
-            TimerLabel::moveTextMinutes = true;
+            moveTextMinutes = true;
         }
     } else {
-        if (TimerLabel::moveTextMinutes){
+        if (moveTextMinutes){
             timerDisplayMinutes.returnText()->setPosition(((sf::VideoMode::getDesktopMode().width / 2) - (65 + 20) + 35), 40.0);
             timerShadowMinutes.returnText()->setPosition(((sf::VideoMode::getDesktopMode().width / 2) - (65 + 20) + 40), 45.0); 
-            TimerLabel::moveTextMinutes = false;
+            moveTextMinutes = false;
         }
     }
     timerDisplayMinutes.returnText()->setString(std::to_string(minutes));
     timerShadowMinutes.returnText()->setString(std::to_string(minutes));
-    sf::Time elapsed = GameClockStruct::gameClockTimer.getElapsedTime();
+    sf::Time elapsed = elapsedTimeFromInGame;
     if (static_cast<int>(elapsed.asSeconds()) != tempSeconds){
         tempSeconds = elapsed.asSeconds();
         if (seconds == 0 && minutes != 0){
@@ -100,10 +90,3 @@ void GameTimer::drawTimer(sf::RenderWindow *winPtrTimer){
         winPtrTimer->draw(*timerDisplayMinutes.returnText());
     }
 }
-
-int GameTimer::m1TimeCounts[2] = {30,1};
-int GameTimer::m2TimeCounts[2] = {10,1};
-int GameTimer::m3TimeCounts[2] = {5,2};
-int GameTimer::m4TimeCounts[2] = {30,2};
-int GameTimer::m5TimeCounts[2] = {45,0};
-int GameTimer::m6TimeCounts[2] = {20,2};

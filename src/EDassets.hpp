@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <Windows.h>
 
 struct EDassets{
     static constexpr uint32_t key = 1234;

@@ -1,18 +1,8 @@
 #include "State.hpp"
 #include <Windows.h>
-std::vector<State*> State::states;
-State *State::currentState;
-sf::Texture State::arrowTexture;
-sf::Texture State::handTexture;
-sf::Sprite State::arrowSprite;
-sf::Sprite State::handSprite;
-sf::SoundBuffer State::globalClickBuffer;
-sf::Sound State::globalClickSound;
-float State::fullScreenSpriteScale;
-float State::scaleArrow;
 
-float State::getFullScreenSpriteScale() { return State::fullScreenSpriteScale; }
-float State::getScaleArrow() { return State::scaleArrow; }
+float State::getFullScreenSpriteScale() { return fullScreenSpriteScale; }
+float State::getScaleArrow() { return scaleArrow; }
 
 void State::createSprite(sf::Texture &textureP, sf::Sprite &spriteP, const std::string &pathF){
     EDassets::decryptFile(pathF);
@@ -22,17 +12,67 @@ void State::createSprite(sf::Texture &textureP, sf::Sprite &spriteP, const std::
     increaseBar(BARUI::barload);
 }
 
+Json::Value State::getDataJson() {
+	std::ifstream fileDataJson("Data/data.json");
+		Json::Value data;
+		Json::Reader reader;
+		reader.parse(fileDataJson, data);
+	fileDataJson.close();
+	return data;
+}
+
+bool State::appInFocus(sf::RenderWindow* app){
+    if(app == NULL)
+        return false;
+
+    HWND handle = app->getSystemHandle();
+    bool one = handle == GetFocus();
+    bool two = handle == GetForegroundWindow();
+
+    if(one != two){
+        SetFocus(handle);
+        SetForegroundWindow(handle);
+    }
+
+    return one && two;
+}
+
 void State::stopCurrentMusicPlaying(){
     currentMusic->stop();
 }
 
-// void State::loadResources() {
+State::State(){
+    // Scales
+    maxResolution = 1080.0f;
+    float screenHeightTemp = sf::VideoMode::getDesktopMode().height;
+    State::fullScreenSpriteScale = /*0.714f;*/ screenHeightTemp / maxResolution;
+	State::scaleArrow = /* 0.30f; */ (screenHeightTemp / maxResolution) * 0.42f;
 
-// }
+	createSprite(arrowTexture, arrowSprite, "Assets/001/001-ac");
+	State::arrowSprite.setScale(sf::Vector2f(getScaleArrow(), getScaleArrow()));
+	State::arrowSprite.setOrigin(68, 23);
+
+	// Hand cursor
+	createSprite(State::handTexture, State::handSprite, "Assets/001/001-hc");
+	State::handSprite.setScale(sf::Vector2f(getScaleArrow(), getScaleArrow()));
+	State::handSprite.setOrigin(110, 30);
+
+	// Global click sound effect
+	globalClickBuffer.loadFromFile("Assets/Audio/SoundEffects/MenuSelection.wav");
+	globalClickSound.setBuffer(globalClickBuffer);
+	increaseBar(BARUI::barload);
+    #ifdef DEBUG
+    std::cout << "State loaded" << std::endl;
+    #endif
+
+
+}
 
 State::~State(){
-    for (size_t i = 0; i < State::states.size(); ++i){
-        delete State::states[i];
-    }
-    State::states.clear();
+    Json::Value data = getDataJson();
+    data["gameplay-status"]["gotomap"]["triggered"] = false;
+    std::ofstream fileDataJson("Data/data.json");
+    Json::StyledWriter styledwriter;
+    fileDataJson << styledwriter.write(data);
+    fileDataJson.close();
 }

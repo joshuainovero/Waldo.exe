@@ -1,32 +1,38 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "MapProperties.hpp"
+#include <json/json.h>
+#include <fstream>
+#include "EDassets.hpp"
 
 class State{
+friend class Engine;
 protected:
-    static sf::Texture arrowTexture;
-    static sf::Texture handTexture;
-    static sf::Sprite arrowSprite;
-    static sf::Sprite handSprite;
-    static sf::SoundBuffer globalClickBuffer;
-    static sf::Sound globalClickSound;
+    sf::Texture arrowTexture;
+    sf::Texture handTexture;
+    sf::Sprite arrowSprite;
+    sf::Sprite handSprite;
+    sf::SoundBuffer globalClickBuffer;
+    sf::Sound globalClickSound;
 
-    static float fullScreenSpriteScale;
-    static float scaleArrow;
-    static float getFullScreenSpriteScale();
-    static float getScaleArrow();
-    static constexpr float maxResolution = 1080;
+    float fullScreenSpriteScale;
+    float scaleArrow;
+    float getFullScreenSpriteScale();
+    float getScaleArrow();
+    float maxResolution;
     sf::Music *currentMusic;
+    bool appInFocus(sf::RenderWindow* app);
 public:
-    static std::vector<State*> states;
-    static State *currentState;
-    State() = default;
+    std::string switchingState = "None";
+    bool mouseDown = false;
+    State();
 
     void createSprite(sf::Texture &textureP, sf::Sprite &spriteP, const std::string &pathF);
     void stopCurrentMusicPlaying();
+    Json::Value getDataJson();
 
     virtual ~State();
     virtual void loadResources() = 0;
+    virtual void notInStateProcess() = 0;
     virtual void run(sf::RenderWindow *window, const float &dtArg) = 0;
 };

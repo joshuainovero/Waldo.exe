@@ -1,37 +1,34 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
-class TimerLabel {
-private:
-	sf::Text text;
-	sf::Font font;
-
-public:
-    static bool moveTextMinutes;
-	sf::Text *returnText() { return &text; }
-	TimerLabel(std::string textContent, float textPosX, float textPosY, unsigned int charSize, sf::Color);
-	void moveText(int x, int y) { text.move(x, y); }
-};
-
-struct GameClockStruct {
-    static sf::Clock gameClockTimer;
-    static bool ClockRunning;
-};
+#include "TimerLabel.hpp"
 
 struct GameTimer{
 
     int seconds, minutes, tempSeconds;
+    bool ClockRunning;
+    bool moveTextMinutes;
 
-    GameTimer(const int mTimerCounts[2]);
+    TimerLabel timerDisplaySeconds;
+    TimerLabel timerDisplayColon;
+    TimerLabel timerDisplayMinutes;
+
+    //Shadow
+    TimerLabel timerShadowSeconds;
+    TimerLabel timerShadowColon;
+    TimerLabel timerShadowMinutes;
+
+    GameTimer(const std::array<int, 2> &mTimerCounts);
     void startTimer();
     void stopTimer();
     void UpdateTimer();
     void drawTimer(sf::RenderWindow *winPtrTimer);
+    void getElapsedFromInGame(const sf::Time &t);
+    sf::Time elapsedTimeFromInGame;
 
-    static int m1TimeCounts[2];
-    static int m2TimeCounts[2];
-    static int m3TimeCounts[2];
-    static int m4TimeCounts[2];
-    static int m5TimeCounts[2];
-    static int m6TimeCounts[2];
+	int m1TimeCounts[2] = {30,1};
+    int m2TimeCounts[2] = {10,1};
+    int m3TimeCounts[2] = {5,2};
+    int m4TimeCounts[2] = {30,2};
+    int m5TimeCounts[2] = {45,0};
+    int m6TimeCounts[2] = {20,2};
 };

@@ -1,9 +1,10 @@
 #include "WaldoPositions.hpp"
+#include "MapProperties.hpp"
 #include <Windows.h>
 #include <fstream>
 #include <iostream>
 
-MapProperty::MapProperty(const std::string &fileName, const std::string &key, const int mapTimerCounts[2])
+MapProperty::MapProperty(const std::string &fileName, const std::string &key, const std::array<int, 2> &&mapTimerCounts)
 	: gametimer(mapTimerCounts) {
 	try{
 	std::ifstream checkFile(fileName);
@@ -32,23 +33,23 @@ bool MapProperty::checkMouseClick(const sf::Vector2i &inGameMousePosP) {
 
 void MapProperty::resetMapState(){
 	if (mapOrder == "Map1"){
-		gametimer.seconds = GameTimer::m1TimeCounts[0];
-		gametimer.minutes = GameTimer::m1TimeCounts[1];
+		gametimer.seconds = gametimer.m1TimeCounts[0];
+		gametimer.minutes = gametimer.m1TimeCounts[1];
 	} else if (mapOrder == "Map2"){
-		gametimer.seconds = GameTimer::m2TimeCounts[0];
-		gametimer.minutes = GameTimer::m2TimeCounts[1];
+		gametimer.seconds = gametimer.m2TimeCounts[0];
+		gametimer.minutes = gametimer.m2TimeCounts[1];
 	} else if (mapOrder == "Map3"){
-		gametimer.seconds = GameTimer::m3TimeCounts[0];
-		gametimer.minutes = GameTimer::m3TimeCounts[1];
+		gametimer.seconds = gametimer.m3TimeCounts[0];
+		gametimer.minutes = gametimer.m3TimeCounts[1];
 	} else if (mapOrder == "Map4"){
-		gametimer.seconds = GameTimer::m4TimeCounts[0];
-		gametimer.minutes = GameTimer::m4TimeCounts[1];
+		gametimer.seconds = gametimer.m4TimeCounts[0];
+		gametimer.minutes = gametimer.m4TimeCounts[1];
 	} else if (mapOrder == "Map5"){
-		gametimer.seconds = GameTimer::m5TimeCounts[0];
-		gametimer.minutes = GameTimer::m5TimeCounts[1];
+		gametimer.seconds = gametimer.m5TimeCounts[0];
+		gametimer.minutes = gametimer.m5TimeCounts[1];
 	} else if (mapOrder == "Map6"){
-		gametimer.seconds = GameTimer::m6TimeCounts[0];
-		gametimer.minutes = GameTimer::m6TimeCounts[1];
+		gametimer.seconds = gametimer.m6TimeCounts[0];
+		gametimer.minutes = gametimer.m6TimeCounts[1];
 	}
 	gameOver = false;
 	waldoFound = false;

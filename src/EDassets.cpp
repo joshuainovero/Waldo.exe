@@ -44,13 +44,15 @@ void EDassets::decryptFile(const std::string &nPath){
         readFile.close();
     outFile.close();
     #ifdef DEBUG
-    std::cout << "Succesfully decrypted the file '" << nPath << "' to 'sprite.png'\n";
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0x0B); std::cout << "EDassets";
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0x0F);
+    std::cout << " : Succesfully decrypted the file '" << nPath << "' to 'sprite.png'\n";
     #endif // DEBUG
 }
 
 
 
-void increaseBar(sf::RectangleShape &bar) {bar.setSize(sf::Vector2f(bar.getSize().x + float((sf::VideoMode::getDesktopMode().width * 0.50)/39), bar.getSize().y));}
+void increaseBar(sf::RectangleShape &bar) {bar.setSize(sf::Vector2f(bar.getSize().x + float((sf::VideoMode::getDesktopMode().width * 0.50)/49), bar.getSize().y));}
 sf::RectangleShape BARUI::barload = sf::RectangleShape(sf::Vector2f(0.0f, 0.05859375f * sf::VideoMode::getDesktopMode().height));
 sf::RectangleShape BARUI::barlimit = sf::RectangleShape(sf::Vector2f(0.0f, 0.0f));
 void BARUI::SETPOSITION(const sf::RenderWindow &window){
