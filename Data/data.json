@@ -4,7 +4,7 @@
       "github" : "https://github.com/joshuainovero/Waldo.exe",
       "localversion" : "v1.0.1",
       "main-directory" : "C:\\Users\\Admin\\Desktop\\repos\\Waldo.exe",
-      "newgame" : false,
+      "newgame" : true,
       "update-link" : "https://joshuainovero.github.io/versions/versions.json"
    },
    "gameplay-status" : {
