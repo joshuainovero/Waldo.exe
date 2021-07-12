@@ -1,5 +1,9 @@
 #include "InGame.hpp"
 
+/* STATES */
+//Pause
+//!Pause -> Waldo is found or Gameover,  else find Waldo
+
 void INGAME::loadMaps(){
 	MAP1 = new MapProperty("Assets/003/003-m1", "Map1", {30,1});
 	MAP2 = new MapProperty("Assets/003/003-m2", "Map2", {10,1});
@@ -18,14 +22,13 @@ void INGAME::SetMapProperty() {
 		case 4: CurrentMap = MAP5; break;
 		case 5: CurrentMap = MAP6; break;
 	}
-	// Intromusic->music.stop();
-	//State::states.at(0)->stopCurrentMusicPlaying();
-	CurrentMap->gametimer.ClockRunning = true;
+	CurrentMap->gametimer.startTimer();
+	CurrentMap->gametimer.gameClockTimer->restart();
 
 }
 
 void INGAME::gotoChosenMap(){
-	if (getDataJson()["gameplay-status"]["gotomap"]["triggered"].asBool()){
+	if (gotoMapTriggered){
 		currentMapIndex = getDataJson()["gameplay-status"]["gotomap"]["index"].asInt();
 	}
 	switch (currentMapIndex){
@@ -39,7 +42,9 @@ void INGAME::gotoChosenMap(){
 	// Intromusic->music.stop();
 	//State::states.at(0)->stopCurrentMusicPlaying();
 	// State::currentState = State::states.at(2);
-	CurrentMap->gametimer.ClockRunning = true;
+	// CurrentMap->gametimer.ClockRunning = true;
+	CurrentMap->gametimer.startTimer();
+	CurrentMap->gametimer.gameClockTimer->restart();
 }
 
 
@@ -76,7 +81,7 @@ INGAME::~INGAME(){
 }
 float INGAME::getScaleCircleCursor() { return scaleCircleCursor; }
 
-void INGAME::notInStateProcess(){ gameClockTimer.restart(); }
+void INGAME::notInStateProcess(){/* gameClockTimer.restart();*/ }
 
 void INGAME::loadResources(){
 	/* SCALES */
@@ -86,7 +91,7 @@ void INGAME::loadResources(){
 	createSprite(circleTexture, circleSprite, "Assets/001/001-rcs");
 	circleSprite.setScale(sf::Vector2f(getScaleCircleCursor(), getScaleCircleCursor()));
 	circleSprite.setOrigin(187, 180);
-	AnimationCircle = StaticObjAnimation(&circleTexture, sf::Vector2u(9,1), 0.06f);
+	AnimationCircle = StaticCircleAnimation(&circleTexture, sf::Vector2u(9,1), 0.06f);
 
 	/* PAUSE SCREEN */
 	createSprite(pauseTexture, pauseSprite, "Assets/004/004-pse");
@@ -133,7 +138,7 @@ void INGAME::loadResources(){
 	loadMaps();
 }
 
-INGAME::INGAME(): State() { loadResources();}
+INGAME::INGAME(): State(), AnimationCircle() { loadResources();}
 
 bool INGAME::resumeInRange(const sf::Vector2i &mousePos){
 	return ((mousePos.x >= rRangeX[0] && mousePos.x <= rRangeX[1]) && 
@@ -152,16 +157,13 @@ bool INGAME::continueInRange(const sf::Vector2i &mousePos){
 
 void INGAME::run(sf::RenderWindow *window, const float &dtArg) {
 	window->setMouseCursorVisible(false);
-	if (getDataJson()["gameplay-status"]["gotomap"]["triggered"].asBool()){
+	if (gotoMapTriggered){
+		/* Will trigger gotoChosenMap() and set gotoMapTriggered
+		to false to prevent the function gotoChosenMap from executing over and over again */
 		gotoChosenMap();
-		Json::Value data = getDataJson();
-        data["gameplay-status"]["gotomap"]["triggered"] = false;
-    	std::ofstream fileDataJson("Data/data.json");
-		Json::StyledWriter styledwriter;
-		fileDataJson << styledwriter.write(data);
+		gotoMapTriggered = false;
 	}
-	CurrentMap->gametimer.getElapsedFromInGame(gameClockTimer.getElapsedTime());
-	if (gamePause) {
+	if (gamePause) { /* PAUSED THE GAME */
 		inGameMousePos = sf::Mouse::getPosition(*window);
 		window->draw(pauseSprite);
 
@@ -184,16 +186,17 @@ void INGAME::run(sf::RenderWindow *window, const float &dtArg) {
 				globalClickSound.play();
 				window->setMouseCursorVisible(true);
 				if (MessageBoxA(NULL,"Are you sure you want to go to the main menu?", "Waldo", MB_YESNO) == IDYES){
-					CurrentMap->gametimer.stopTimer();
 					CurrentMap->resetMapState();
 					CurrentMap->gametimer.moveTextMinutes = false;
 					gamePause = false;
 					switchingState = "Menu";
+					gotoMapTriggered = true;
 				}
 			}
 		} else {
 			arrowSprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
 			window->draw(arrowSprite);
+			CurrentMap->gametimer.gameClockTimer->restart();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
 			if (!keyDown){
@@ -202,9 +205,8 @@ void INGAME::run(sf::RenderWindow *window, const float &dtArg) {
 			}
 			
 		}  else keyDown = false;
-		gameClockTimer.restart();
-	} else {
-		if (CurrentMap->waldoFound){
+	} else { /* PAUSE IS FALSE */
+		if (CurrentMap->waldoFound){ /* WALDO IS FOUND */
 			inGameMousePos = sf::Mouse::getPosition(*window);
 			window->draw(CurrentMap->returnSprite());
 			CurrentMap->gametimer.drawTimer(window);
@@ -214,7 +216,6 @@ void INGAME::run(sf::RenderWindow *window, const float &dtArg) {
 				window->draw(handSprite);
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 					if (!mouseDown){
-						gameClockTimer.restart();
 						CurrentMap->resetMapState();
 						CurrentMap->gametimer.moveTextMinutes = false;
 						if (currentMapIndex < getDataJson()["gameplay-status"]["currentmaporder"].asUInt()){
@@ -234,7 +235,7 @@ void INGAME::run(sf::RenderWindow *window, const float &dtArg) {
 				arrowSprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
 				window->draw(arrowSprite);
 			}
-		} else if (CurrentMap->gameOver){
+		} else if (CurrentMap->gameOver){ /* RAN OUT OF TIME */
 			inGameMousePos = sf::Mouse::getPosition(*window);
 			window->draw(CurrentMap->returnSprite());
 			CurrentMap->gametimer.drawTimer(window);
@@ -248,6 +249,7 @@ void INGAME::run(sf::RenderWindow *window, const float &dtArg) {
 						CurrentMap->gametimer.moveTextMinutes = false;
 						mouseDown = true;
 						switchingState = "Menu";
+						gotoMapTriggered = true;
 					}
 				} else
 					mouseDown = false;
@@ -256,7 +258,7 @@ void INGAME::run(sf::RenderWindow *window, const float &dtArg) {
 				window->draw(arrowSprite);
 			}
 
-		} else {
+		} else { /* NEITHER OF THE TWO STATES ABOVE ARE TRUE (WaldoFound, GameOver) - player will continue to find waldo */
 			AnimationCircle.Update(AnimationCircle.currentRow, dtArg);
 			circleSprite.setTextureRect(AnimationCircle.uvRect);
 			
@@ -272,32 +274,26 @@ void INGAME::run(sf::RenderWindow *window, const float &dtArg) {
 				inGameMousePos = sf::Mouse::getPosition(*window);
 				circleSprite.setPosition(static_cast<float>(inGameMousePos.x), static_cast<float>(inGameMousePos.y));
 				
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) { // If wally is found
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 					if (!mouseDown){
-						if (CurrentMap->checkMouseClick(inGameMousePos)) {
+						if (CurrentMap->checkMouseClick(inGameMousePos)) { /* MOUSE POS IN COORDINATES OF WALDO */
 							waldoFoundSound.play();
 							CurrentMap->waldoFound = true;
-							if (CurrentMap->gametimer.ClockRunning) {
-								CurrentMap->gametimer.ClockRunning = false;
-							}
 						}
-						else wrongClickSound.play();
+						else wrongClickSound.play(); /* MOUSE NOT IN WALDO COORDINATES */
 						mouseDown = true;
 					}
 				} else
 					mouseDown = false;		
 			}
-			if (CurrentMap->gametimer.seconds == -1 && CurrentMap->gametimer.minutes == 0){
-				CurrentMap->gametimer.stopTimer();
+			if (CurrentMap->gametimer.seconds == 0 && CurrentMap->gametimer.minutes == 0){
 				CurrentMap->gameOver = true;
 			}
 			
-			if (CurrentMap->gametimer.ClockRunning)
-				CurrentMap->gametimer.UpdateTimer();
-
+			CurrentMap->gametimer.UpdateTimer();
 			window->draw(CurrentMap->returnSprite());
-			window->draw(circleSprite);
 			CurrentMap->gametimer.drawTimer(window);
+			window->draw(circleSprite);
 		}
 	}		
 }
