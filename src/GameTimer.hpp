@@ -5,8 +5,9 @@
 struct GameTimer{
 
     int seconds, minutes, tempSeconds;
-    bool ClockRunning;
+    // bool ClockRunning;
     bool moveTextMinutes;
+    sf::Clock *gameClockTimer;
 
     TimerLabel timerDisplaySeconds;
     TimerLabel timerDisplayColon;
@@ -22,8 +23,8 @@ struct GameTimer{
     void stopTimer();
     void UpdateTimer();
     void drawTimer(sf::RenderWindow *winPtrTimer);
-    void getElapsedFromInGame(const sf::Time &t);
-    sf::Time elapsedTimeFromInGame;
+    // void getElapsedFromInGame(const sf::Time &t);
+    // sf::Time elapsedTimeFromInGame;
 
 	int m1TimeCounts[2] = {30,1};
     int m2TimeCounts[2] = {10,1};
