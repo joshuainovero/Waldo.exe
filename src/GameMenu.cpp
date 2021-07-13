@@ -103,7 +103,6 @@ void GAMEMENU::run(sf::RenderWindow *window, const float &dtArg) {
 
 		window->draw(exitIconSprite);
 
-
 		if (appInFocus(window)){
 			menuMousePos = sf::Mouse::getPosition(*window);
 			if ((menuMousePos.x >= startButton->clickableX[0] && menuMousePos.x <= startButton->clickableX[1]) &&
@@ -134,9 +133,7 @@ void GAMEMENU::run(sf::RenderWindow *window, const float &dtArg) {
 					}
 					else if ((menuMousePos.x >= rangeExitX[0] && menuMousePos.x <= rangeExitX[1]) &&
 							(menuMousePos.y >= rangeExitY[0] && menuMousePos.y <= rangeExitY[1])) {
-							globalClickSound.play();
-							window->setMouseCursorVisible(true);
-						if (MessageBoxA(NULL,"Are you sure you want to exit?", "Waldo", MB_YESNO) == IDYES)
+						// if (MessageBoxA(NULL,"Are you sure you want to exit?", "Waldo", MB_YESNO) == IDYES)
 								window->close();					
 					}
 					mouseDown = true;
