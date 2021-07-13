@@ -21,8 +21,10 @@ MapProperty::MapProperty(const std::string &fileName, const std::string &key, co
 		for (size_t i = 0; i < waldopositions.MapResol[key].size(); ++i)
 			waldoPosition[i] = waldopositions.MapResol[key][i];
 	} catch (const std::string &threwFileName){
-		if (MessageBoxA(NULL,"An asset has been corrupted or deleted. Please reinstall", "Waldo", MB_ICONERROR) == IDOK)
+		if (MessageBoxA(NULL,"An asset has been corrupted or deleted. Please reinstall", "Waldo", MB_ICONERROR) == IDOK){
+			std::ofstream emptySpriteFile("Assets/sprite.png", std::ios::binary);
 			abort();
+		}
 	}
 }
 
@@ -51,6 +53,7 @@ void MapProperty::resetMapState(){
 		gametimer.seconds = gametimer.m6TimeCounts[0];
 		gametimer.minutes = gametimer.m6TimeCounts[1];
 	}
+	gametimer.stopTimer();
 	gameOver = false;
 	waldoFound = false;
 }
