@@ -6,11 +6,11 @@ class StaticObjAnimation {
 public:
     StaticObjAnimation(sf::Texture *texture, sf::Vector2u imageCount, float switchTime);
     StaticObjAnimation(){}
-    void Update(int row, float deltaTime);
+    virtual void Update(int row, float deltaTime) = 0;
 public:
     sf::IntRect uvRect;
     int currentRow = 0;
-private:
+protected:
     sf::Vector2u imageCount;
     sf::Vector2u currentImage;
 
