@@ -2,51 +2,47 @@
 #include <memory>
 #include "State.hpp"
 #include "MapProperties.hpp"
-#include "StaticObjAnimation.hpp"
+#include "StaticCircleAnimation.hpp"
+#include "StaticPauseAnimation.hpp"
 
 class INGAME : public State{
 private:
-	sf::Texture circleTexture, pauseTexture, waldoFoundTexture, gameOverTexture;
-	sf::Sprite circleSprite, pauseSprite, waldoFoundSprite, gameOverSprite;
+	sf::Texture circleTexture, pauseTexture, quitTexture, waldoFoundTexture, gameOverTexture;
+	sf::Sprite circleSprite, pauseSprite, quitSprite, waldoFoundSprite, gameOverSprite;
 	sf::SoundBuffer wrongClickBuffer, waldoFoundBuffer;
 	sf::Sound wrongClickSound, waldoFoundSound;
-	StaticObjAnimation AnimationCircle;
+	StaticCircleAnimation AnimationCircle;
+	StaticPauseAnimation AnimationPause;
+	MapProperty* CurrentMap;
+	MapProperty *MAP1, *MAP2, *MAP3, *MAP4, *MAP5, *MAP6;
 	sf::Vector2i inGameMousePos;
 	sf::Vector2i screenSize;
 	uint32_t currentMapIndex;
-	sf::Clock gameClockTimer;
+	// sf::Clock gameClockTimer;
 	float scaleCircleCursor;
-	int rRangeX[2], rRangeY[2];
-	//615 -> 791         353 -> 403
-	int qRangeX[2], qRangeY[2];
-	//615 -> 791         460 -> 510
-
-	int conRangeX[2], conRangeY[2];
+	float rRangeX[2], rRangeY[2]; //615 -> 791         353 -> 403
+	float qRangeX[2], qRangeY[2]; //615 -> 791         460 -> 510
+	float q2RangeX[2], q2RangeY[2]; // Are you sure you want to quit?
+	float exRangeX[2], exRangeY[2];
+	float conRangeX[2], conRangeY[2];
 	bool gamePause = false;
+	bool quitPop = false;
 	bool keyDown = false;
+	bool gotoMapTriggered = true;
+
+private:
+	virtual void loadResources() override;
+	float getScaleCircleCursor();
+	bool clickEventInRange(float clickRangeX[2], float clickRangeY[2], sf::Vector2i &mousePos);
+	void updateCurrentMapOrder();
+	void SetMapProperty();
+	void updateMapStatus();
+	void loadMaps();
+	void gotoChosenMap();
 
 public:
 	INGAME();
 	virtual ~INGAME();
 	virtual void run(sf::RenderWindow *window, const float &dtArg) override;
-	virtual void loadResources() override;
 	virtual void notInStateProcess() override;
-	void updateCurrentMapOrder();
-	float getScaleCircleCursor();
-	bool resumeInRange(const sf::Vector2i &mousePos);
-	bool quitInRange(const sf::Vector2i &mousePos);
-	bool continueInRange(const sf::Vector2i &mousePos);
-
-	MapProperty* CurrentMap;
-	MapProperty *MAP1;
-	MapProperty *MAP2;
-	MapProperty *MAP3;
-	MapProperty *MAP4;
-	MapProperty *MAP5;
-	MapProperty *MAP6;
-
-	void SetMapProperty();
-	void updateMapStatus();
-	void loadMaps();
-	void gotoChosenMap();
 };
