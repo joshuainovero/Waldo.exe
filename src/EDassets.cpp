@@ -52,7 +52,7 @@ void EDassets::decryptFile(const std::string &nPath){
 
 
 
-void increaseBar(sf::RectangleShape &bar) {bar.setSize(sf::Vector2f(bar.getSize().x + float((sf::VideoMode::getDesktopMode().width * 0.50)/49), bar.getSize().y));}
+void increaseBar(sf::RectangleShape &bar) {bar.setSize(sf::Vector2f(bar.getSize().x + float((sf::VideoMode::getDesktopMode().width * 0.50)/51), bar.getSize().y));}
 sf::RectangleShape BARUI::barload = sf::RectangleShape(sf::Vector2f(0.0f, 0.05859375f * sf::VideoMode::getDesktopMode().height));
 sf::RectangleShape BARUI::barlimit = sf::RectangleShape(sf::Vector2f(0.0f, 0.0f));
 void BARUI::SETPOSITION(const sf::RenderWindow &window){
