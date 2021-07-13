@@ -16,19 +16,21 @@ GameTimer::GameTimer(const std::array<int, 2> &mTimerCounts)
         timerShadowSeconds.returnText()->setString(std::to_string(seconds));
 
         moveTextMinutes = false;
-        ClockRunning = false;
     }
 
-void GameTimer::getElapsedFromInGame(const sf::Time &t){
-    elapsedTimeFromInGame = t;
-}
-
 void GameTimer::startTimer() {
-    ClockRunning = true;
+    gameClockTimer = new sf::Clock();
+    #ifdef DEBUG
+    std::cout << "STARTED A NEW TIMER" << std::endl;
+    #endif
 }
 
 void GameTimer::stopTimer(){
-    ClockRunning = false;
+    delete gameClockTimer;
+    gameClockTimer = nullptr;
+    #ifdef DEBUG
+    std::cout << "FREED A TIMER" << std::endl;
+    #endif
 }
 
 void GameTimer::UpdateTimer(){
@@ -59,7 +61,7 @@ void GameTimer::UpdateTimer(){
     }
     timerDisplayMinutes.returnText()->setString(std::to_string(minutes));
     timerShadowMinutes.returnText()->setString(std::to_string(minutes));
-    sf::Time elapsed = elapsedTimeFromInGame;
+    sf::Time elapsed = gameClockTimer->getElapsedTime();
     if (static_cast<int>(elapsed.asSeconds()) != tempSeconds){
         tempSeconds = elapsed.asSeconds();
         if (seconds == 0 && minutes != 0){
@@ -68,7 +70,6 @@ void GameTimer::UpdateTimer(){
         } else 
             seconds--;
     }
-   // std::cout << "Elapsed : " << static_cast<int>(elapsed.asSeconds()) << std::endl;
 }
 
 void GameTimer::drawTimer(sf::RenderWindow *winPtrTimer){
