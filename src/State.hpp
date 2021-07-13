@@ -6,7 +6,6 @@
 #include "EDassets.hpp"
 
 class State{
-friend class Engine;
 protected:
     sf::Texture arrowTexture;
     sf::Texture handTexture;
@@ -14,25 +13,24 @@ protected:
     sf::Sprite handSprite;
     sf::SoundBuffer globalClickBuffer;
     sf::Sound globalClickSound;
+    Json::Value getDataJson();
 
     float fullScreenSpriteScale;
     float scaleArrow;
+    float maxResolution;
+
+    bool appInFocus(sf::RenderWindow* app);
     float getFullScreenSpriteScale();
     float getScaleArrow();
-    float maxResolution;
-    sf::Music *currentMusic;
-    bool appInFocus(sf::RenderWindow* app);
+    void createSprite(sf::Texture &textureP, sf::Sprite &spriteP, const std::string &pathF);
+    virtual void loadResources() = 0;
 public:
     std::string switchingState = "None";
     bool mouseDown = false;
+    sf::Music *currentMusic;
     State();
-
-    void createSprite(sf::Texture &textureP, sf::Sprite &spriteP, const std::string &pathF);
-    void stopCurrentMusicPlaying();
-    Json::Value getDataJson();
-
     virtual ~State();
-    virtual void loadResources() = 0;
     virtual void notInStateProcess() = 0;
     virtual void run(sf::RenderWindow *window, const float &dtArg) = 0;
+    void stopCurrentMusicPlaying();
 };

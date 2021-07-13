@@ -5,11 +5,21 @@ float State::getFullScreenSpriteScale() { return fullScreenSpriteScale; }
 float State::getScaleArrow() { return scaleArrow; }
 
 void State::createSprite(sf::Texture &textureP, sf::Sprite &spriteP, const std::string &pathF){
-    EDassets::decryptFile(pathF);
-    increaseBar(BARUI::barload);
-    textureP.loadFromFile("Assets/sprite.png");
-    spriteP.setTexture(textureP);
-    increaseBar(BARUI::barload);
+    try {
+        std::ifstream checkValidAsset(pathF);
+        if (!checkValidAsset)
+            throw pathF;
+        EDassets::decryptFile(pathF);
+        increaseBar(BARUI::barload);
+        textureP.loadFromFile("Assets/sprite.png");
+        spriteP.setTexture(textureP);
+        increaseBar(BARUI::barload);
+    } catch (const std::string &threw){
+    	if (MessageBoxA(NULL,"An asset has been corrupted or deleted. Please reinstall", "Waldo", MB_ICONERROR) == IDOK){
+            std::ofstream emptySpriteFile("Assets/sprite.png", std::ios::binary);
+			abort();
+        }
+    }
 }
 
 Json::Value State::getDataJson() {
@@ -69,10 +79,10 @@ State::State(){
 }
 
 State::~State(){
-    Json::Value data = getDataJson();
-    data["gameplay-status"]["gotomap"]["triggered"] = false;
-    std::ofstream fileDataJson("Data/data.json");
-    Json::StyledWriter styledwriter;
-    fileDataJson << styledwriter.write(data);
-    fileDataJson.close();
+    // Json::Value data = getDataJson();
+    // data["gameplay-status"]["gotomap"]["triggered"] = "SHIT";
+    // std::ofstream fileDataJson("Data/data.json");
+    // Json::StyledWriter styledwriter;
+    // fileDataJson << styledwriter.write(data);
+    // fileDataJson.close();
 }
