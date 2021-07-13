@@ -1,33 +1,16 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Network.hpp>
-#include <Windows.h>
-
-#include "State.hpp"
-#include "InGame.hpp"
-#include "MapSelect.hpp"
-#include "GameMenu.hpp"
+#include "GameResources.hpp"
 
 class Engine {
 private:
-    // Main game
     sf::RenderWindow *window;
     sf::Event sfEvent;
     sf::Clock dtClock;
-    std::vector<State*> states;
-    State *currentState;
+    GameResources resources;
     unsigned int framerateLimit;
     float dt;
-
-    // Loading screen
-    sf::RenderWindow *loadingWindow;
-    sf::Texture textureLoading;
-	sf::Sprite spriteLoading;
-	float spriteScale;
-	bool doneLoading;
 
     #ifdef DEBUG
     uint32_t appWidth, appHeight;
@@ -39,13 +22,8 @@ private:
     void getMainDirectory();
     void updateDeltaTime();
     void updateSFMLEvents();
-    void stateManager();
     void update();
     void render();
-    void startGameResources();
-    void loadStatesAssets();
-	void loadingScreen();
-	void init();
 
 public:
     Engine();
