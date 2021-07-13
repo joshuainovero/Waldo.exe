@@ -1,4 +1,5 @@
 @echo off
+title Release
 setlocal enabledelayedexpansion
 echo Build started at: %cd% && echo.
 echo Creating object files... && echo.
