@@ -51,7 +51,6 @@ void MAPSELECT::run(sf::RenderWindow *window, const float &dtArg){
 
                     Json::Value data = getDataJson();
                     data["gameplay-status"]["gotomap"]["index"] = 0;
-                    data["gameplay-status"]["gotomap"]["triggered"] = true;
                     std::ofstream fileDataJson("Data/data.json");
 		            Json::StyledWriter styledwriter;
 		            fileDataJson << styledwriter.write(data);
@@ -63,7 +62,6 @@ void MAPSELECT::run(sf::RenderWindow *window, const float &dtArg){
 
                     Json::Value data = getDataJson();
                     data["gameplay-status"]["gotomap"]["index"] = 1;
-                    data["gameplay-status"]["gotomap"]["triggered"] = true;
                     std::ofstream fileDataJson("Data/data.json");
 		            Json::StyledWriter styledwriter;
 		            fileDataJson << styledwriter.write(data);
@@ -75,7 +73,6 @@ void MAPSELECT::run(sf::RenderWindow *window, const float &dtArg){
 
                     Json::Value data = getDataJson();
                     data["gameplay-status"]["gotomap"]["index"] = 2;
-                    data["gameplay-status"]["gotomap"]["triggered"] = true;
                     std::ofstream fileDataJson("Data/data.json");
 		            Json::StyledWriter styledwriter;
 		            fileDataJson << styledwriter.write(data);
@@ -87,7 +84,6 @@ void MAPSELECT::run(sf::RenderWindow *window, const float &dtArg){
                     
                     Json::Value data = getDataJson();
                     data["gameplay-status"]["gotomap"]["index"] = 3;
-                    data["gameplay-status"]["gotomap"]["triggered"] = true;
                     std::ofstream fileDataJson("Data/data.json");
 		            Json::StyledWriter styledwriter;
 		            fileDataJson << styledwriter.write(data);
@@ -98,7 +94,6 @@ void MAPSELECT::run(sf::RenderWindow *window, const float &dtArg){
 
                     Json::Value data = getDataJson();
                     data["gameplay-status"]["gotomap"]["index"] = 4;
-                    data["gameplay-status"]["gotomap"]["triggered"] = true;
                     std::ofstream fileDataJson("Data/data.json");
 		            Json::StyledWriter styledwriter;
 		            fileDataJson << styledwriter.write(data);
@@ -109,7 +104,6 @@ void MAPSELECT::run(sf::RenderWindow *window, const float &dtArg){
 
                     Json::Value data = getDataJson();
                     data["gameplay-status"]["gotomap"]["index"] = 5;
-                    data["gameplay-status"]["gotomap"]["triggered"] = true;
                     std::ofstream fileDataJson("Data/data.json");
 		            Json::StyledWriter styledwriter;
 		            fileDataJson << styledwriter.write(data);
